@@ -1,0 +1,6 @@
+@NETUA2_Egzaminas_HostAddress = http://localhost:5129
+
+GET {{NETUA2_Egzaminas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
