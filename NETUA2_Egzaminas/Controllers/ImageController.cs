@@ -14,10 +14,12 @@ namespace NETUA2_Egzaminas.API.Controllers
 	public class ImageController : ControllerBase
 	{
 		private readonly IImageRepository _imageRepository;
+		private readonly ILogger<ImageController> _logger;
 
-		public ImageController(IImageRepository imageRepository)
+		public ImageController(IImageRepository imageRepository, ILogger<ImageController> logger)
 		{
 			_imageRepository = imageRepository;
+			_logger = logger;
 		}
 
 

@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NETUA2_Egzaminas.BLL\NETUA2_Egzaminas.BLL.csproj" />
     <ProjectReference Include="..\NETUA2_Egzaminas.DAL\NETUA2_Egzaminas.DAL.csproj" />
   </ItemGroup>
