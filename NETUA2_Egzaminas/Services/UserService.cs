@@ -49,11 +49,21 @@ namespace NETUA2_Egzaminas.API.Services
             return user;
         }
 
-
         public int GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return int.Parse(userId);
+        }
+
+        public User GetUserById(int id)
+        {
+            var userId = _userManagerService.GetUserById(id);
+            return userId;
+        }
+
+        public void DeleteUser(User user)
+        {
+            _userManagerService.DeleteUser(user);
         }
 
         public ResponseDTO TryLogin(string userName, string password, out int? userId, out string role)
@@ -77,6 +87,7 @@ namespace NETUA2_Egzaminas.API.Services
             }
             return new ResponseDTO(true, "User connected successfully!");
         }
+
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using var hmac = new HMACSHA256();
@@ -91,5 +102,6 @@ namespace NETUA2_Egzaminas.API.Services
 
             return computedHash.SequenceEqual(storedHash);
         }
+
     }
 }

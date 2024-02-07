@@ -37,7 +37,7 @@ namespace NETUA2_Egzaminas.API.Mappers
 			};
 			return entity;
 		}
-		public GetUserInfoDTO(UserInfo model)
+		public GetUserInfoDTO Map(UserInfo model)
 		{
 			var entity = new GetUserInfoDTO
 			{

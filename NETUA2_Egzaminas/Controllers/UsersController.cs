@@ -53,10 +53,15 @@ namespace NETUA2_Egzaminas.API.Controllers
             }
             return Ok(user);
         }
-        [HttpDelete("Delete")]
-        public IActionResult Delete()
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(int id)
         {
-            return Ok();
+            // Implement deletion only for admins.
+            // Mayne add reason why user was deleted and track data of deleted users for some time.
+            // Also add temporary ban options.
+            var userToDelete = _userService.GetUserById(id);
+            _userService.DeleteUser(userToDelete);
+            return Ok(userToDelete);
         }
     }
 }

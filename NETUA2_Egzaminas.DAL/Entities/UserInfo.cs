@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int PersonalID { get; set; }
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
+
+        [ForeignKey("UserId")]
+        public int UserId { get; set; } // Foreign key to User table by UserId prop
         public ProfileImage Image { get; set; }
         public UserResidence Residence { get; set; }
     }

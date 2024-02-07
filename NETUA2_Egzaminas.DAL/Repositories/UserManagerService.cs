@@ -21,6 +21,10 @@ namespace NETUA2_Egzaminas.DAL.Repositories
 			return _context.Users.SingleOrDefault(u => u.UserName == username);
 		}
 
+        public User GetUserById(int id)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserId == id);
+        }
 		public void SaveUser(User user)
 		{
 			_context.Users.Add(user);
@@ -31,5 +35,6 @@ namespace NETUA2_Egzaminas.DAL.Repositories
 			_context.Users.Remove(user);
 			_context.SaveChanges();
 		}
-	}
+
+    }
 }
