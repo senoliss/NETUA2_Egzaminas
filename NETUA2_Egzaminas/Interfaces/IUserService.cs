@@ -13,5 +13,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
         int GetCurrentUserId();
         User GetUserById(int id);
         void DeleteUser(User user);
+        UserInfo GetUserInfoByUserId(int userId);
+        ResponseDTO SaveUserInfoToDb(UserInfo userInfoToCreate);
     }
 }

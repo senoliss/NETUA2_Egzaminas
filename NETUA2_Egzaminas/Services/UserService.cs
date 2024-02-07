@@ -13,17 +13,27 @@ namespace NETUA2_Egzaminas.API.Services
     {
         private readonly AppDbContext _context;
         private readonly IUserManagerService _userManagerService;
+        private readonly IUserInfoRepository _userInfoRepository;
+        private readonly IUserResidenceRepository _userResidenceRepository;
         private readonly ILogger _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(AppDbContext context, IUserManagerService userDbService, ILogger<UserService> logger, IHttpContextAccessor httpContextAccessor)
+        public UserService(AppDbContext context,
+            IUserManagerService userDbService,
+            ILogger<UserService> logger,
+            IHttpContextAccessor httpContextAccessor,
+            IUserInfoRepository userInfoRepository,
+            IUserResidenceRepository userResidenceRepository)
         {
             _context = context;
             _userManagerService = userDbService;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _userInfoRepository = userInfoRepository;
+            _userResidenceRepository = userResidenceRepository;
         }
 
+        //=========================User methods=========================================
         public User? CreateAccount(string userName, string password, string email, string role)
         {
             CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
@@ -49,6 +59,7 @@ namespace NETUA2_Egzaminas.API.Services
             return user;
         }
 
+        // Gets authenticated user info through claims
         public int GetCurrentUserId()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -73,10 +84,10 @@ namespace NETUA2_Egzaminas.API.Services
             {
                 _logger.LogWarning($"User {userName} does not exist.");
                 userId = null;
-				role = user.Role;
-				return new ResponseDTO(false, $"User {userName} does not exist.");
+                role = user.Role;
+                return new ResponseDTO(false, $"User {userName} does not exist.");
             }
-            
+
             userId = user.UserId;
             role = user.Role;
             var verified = TryVerifyPasswordHash(password, user.Password, user.PasswordSalt);
@@ -103,5 +114,23 @@ namespace NETUA2_Egzaminas.API.Services
             return computedHash.SequenceEqual(storedHash);
         }
 
+        //=========================User Info methods=========================================
+
+        public UserInfo GetUserInfoByUserId(int userId)
+        {
+            return _context.UsersInfo.FirstOrDefault(u => u.UserId == userId);
+        }
+
+        public ResponseDTO SaveUserInfoToDb(UserInfo userInfoToCreate)
+        {
+            _userInfoRepository.AddUserInfo(userInfoToCreate);
+            // Checks if the user info was created successfully to return response as dto in controller
+            if(_userInfoRepository.GetUserInfoById(userInfoToCreate.UserId) == null)
+            {
+                return new ResponseDTO(false, "User Info creation failed...");
+            }
+            return new ResponseDTO(true, "User Info created successfully!");
+        }
+        //=========================User Residence methods=========================================
     }
 }

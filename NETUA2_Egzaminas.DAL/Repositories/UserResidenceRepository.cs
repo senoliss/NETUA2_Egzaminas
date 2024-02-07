@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using NETUA2_Egzaminas.DAL.Entities;
 using NETUA2_Egzaminas.DAL.Interfaces;
 using System;
@@ -26,7 +27,9 @@ namespace NETUA2_Egzaminas.DAL.Repositories
 
 		public UserResidence GetUserResidenceById(int id)
 		{
-			return _context.UsersResidences.SingleOrDefault(u => u.Id == id);
+			return _context.UsersResidences
+				.Include(ur => ur.UserInfo)
+				.SingleOrDefault(u => u.Id == id);
 		}
 
 		public void UpdateUserResidence(UserResidence userResidenceToUpdate)

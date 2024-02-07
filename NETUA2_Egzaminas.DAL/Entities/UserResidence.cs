@@ -15,5 +15,8 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public string Street { get; set; }
         public int BuildingNumber { get; set; }
         public int FlatNumber { get; set; }
+
+        // Navigation property
+        public UserInfo UserInfo { get; set; }  // Navigation to UserInfo entity
     }
 }

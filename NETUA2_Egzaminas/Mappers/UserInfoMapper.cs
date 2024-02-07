@@ -1,20 +1,15 @@
 ﻿using NETUA2_Egzaminas.API.DTOs;
+using NETUA2_Egzaminas.API.Interfaces;
 using NETUA2_Egzaminas.DAL.Entities;
 
 namespace NETUA2_Egzaminas.API.Mappers
 {
-	public interface IUserInfoMapper
-	{
-		UserInfo Map(PostUserInfoDTO userInfoToPost);
-		UserInfo Map(UpdatetUserInfoDTO userInfoToUpdate);
-	}
-	public class UserInfoMapper : IUserInfoMapper
+    public class UserInfoMapper : IUserInfoMapper
 	{
 		public UserInfo Map(PostUserInfoDTO userInfoToPost)
 		{
 			var entity = new UserInfo
 			{
-				Id = userInfoToPost.Id,
 				Name = userInfoToPost.Name,
 				Surname = userInfoToPost.Surname,
 				PersonalID = userInfoToPost.PersonalID,
@@ -28,7 +23,6 @@ namespace NETUA2_Egzaminas.API.Mappers
 		{
 			var entity = new UserInfo
 			{
-				Id = userInfoToUpdate.Id,
 				Name = userInfoToUpdate.Name,
 				Surname = userInfoToUpdate.Surname,
 				PersonalID = userInfoToUpdate.PersonalID,

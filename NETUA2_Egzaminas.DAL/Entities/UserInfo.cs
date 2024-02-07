@@ -19,9 +19,14 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        [ForeignKey("UserId")]
-        public int UserId { get; set; } // Foreign key to User table by UserId prop
-        public ProfileImage Image { get; set; }
-        public UserResidence Residence { get; set; }
+        // Foreign key properties
+        public int UserId { get; set; }  // Foreign key to User table
+        public int? ImageId { get; set; }  // Nullable foreign key to ProfileImage table
+        public int? ResidenceId { get; set; }  // Nullable foreign key to UserResidence table
+
+        // Navigation properties
+        public User User { get; set; }  // Navigation to User entity
+        public ProfileImage Image { get; set; }  // Navigation to ProfileImage entity
+        public UserResidence Residence { get; set; }  // Navigation to UserResidence entity
     }
 }
