@@ -19,17 +19,24 @@ namespace NETUA2_Egzaminas.API.Mappers
 			return entity;
 		}
 
-		public UserInfo Map(UpdateUserInfoDTO userInfoToUpdate)
+		public UserInfo Map(UpdateUserInfoDTO userInfoToUpdate, UserInfo existingUserInfo)
 		{
-			var entity = new UserInfo
-			{
-				Name = userInfoToUpdate.Name,
-				Surname = userInfoToUpdate.Surname,
-				PersonalID = userInfoToUpdate.PersonalID,
-				PhoneNumber = userInfoToUpdate.PhoneNumber,
-				Email = userInfoToUpdate.Email
-			};
-			return entity;
+            //var entity = new UserInfo
+            //{
+            //	Name = userInfoToUpdate.Name,
+            //	Surname = userInfoToUpdate.Surname,
+            //	PersonalID = userInfoToUpdate.PersonalID,
+            //	PhoneNumber = userInfoToUpdate.PhoneNumber,
+            //	Email = userInfoToUpdate.Email
+            //};
+
+            existingUserInfo.Name = userInfoToUpdate.Name;
+            existingUserInfo.Surname = userInfoToUpdate.Surname;
+            existingUserInfo.PersonalID = userInfoToUpdate.PersonalID;
+            existingUserInfo.PhoneNumber = userInfoToUpdate.PhoneNumber;
+            existingUserInfo.Email = userInfoToUpdate.Email;
+
+            return existingUserInfo;
 		}
 		public GetUserInfoDTO Map(UserInfo model)
 		{

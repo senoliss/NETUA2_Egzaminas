@@ -13,7 +13,10 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int Id { get; set; }
         public string Town { get; set; }
         public string Street { get; set; }
-        public int BuildingNumber { get; set; }
+        /// <summary>
+        /// This prop is string because sometimes houses are divided in subplaces like 29A 29B 29C etc
+        /// </summary>
+        public string BuildingNumber { get; set; }
         public int FlatNumber { get; set; }
 
         // Navigation property

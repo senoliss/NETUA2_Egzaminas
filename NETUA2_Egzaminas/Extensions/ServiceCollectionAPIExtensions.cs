@@ -14,6 +14,7 @@ namespace NETUA2_Egzaminas.API.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IUserInfoMapper, UserInfoMapper>();
+            services.AddTransient<IUserResidenceMapper, UserResidenceMapper>();
             services.AddTransient<IUserResidenceRepository, UserResidenceRepository>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();
         }
