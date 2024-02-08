@@ -28,7 +28,6 @@ namespace NETUA2_Egzaminas.DAL.Repositories
 		public UserInfo GetUserInfoById(int id)
 		{
             return _context.UsersInfo
-            .Include(u => u.User)
             .Include(u => u.Image)
             .Include(u => u.Residence)
             .SingleOrDefault(u => u.Id == id);

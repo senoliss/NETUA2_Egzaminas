@@ -1,6 +1,6 @@
 ﻿namespace NETUA2_Egzaminas.API.DTOs
 {
-	public class UpdatetUserInfoDTO
+	public class UpdateUserInfoDTO
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

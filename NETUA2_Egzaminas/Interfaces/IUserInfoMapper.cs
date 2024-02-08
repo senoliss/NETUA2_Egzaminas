@@ -6,6 +6,6 @@ namespace NETUA2_Egzaminas.API.Interfaces
     public interface IUserInfoMapper
     {
         UserInfo Map(PostUserInfoDTO userInfoToPost);
-        UserInfo Map(UpdatetUserInfoDTO userInfoToUpdate);
+        UserInfo Map(UpdateUserInfoDTO userInfoToUpdate);
     }
 }

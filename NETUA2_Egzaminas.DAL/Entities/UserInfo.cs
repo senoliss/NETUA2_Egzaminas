@@ -25,7 +25,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int? ResidenceId { get; set; }  // Nullable foreign key to UserResidence table
 
         // Navigation properties
-        public User User { get; set; }  // Navigation to User entity
+        //public User User { get; set; }  // Navigation to User entity        // Cross reference reiktu sutvarkyti kad nesigautu loop'as kai User modelis uzsikrauna UserInfo tada UserInfo uzsikrauna User ir t.t.
         public ProfileImage Image { get; set; }  // Navigation to ProfileImage entity
         public UserResidence Residence { get; set; }  // Navigation to UserResidence entity
     }

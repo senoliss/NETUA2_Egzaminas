@@ -19,7 +19,7 @@ namespace NETUA2_Egzaminas.API.Mappers
 			return entity;
 		}
 
-		public UserInfo Map(UpdatetUserInfoDTO userInfoToUpdate)
+		public UserInfo Map(UpdateUserInfoDTO userInfoToUpdate)
 		{
 			var entity = new UserInfo
 			{

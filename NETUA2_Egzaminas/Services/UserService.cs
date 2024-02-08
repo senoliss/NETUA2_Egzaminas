@@ -12,14 +12,14 @@ namespace NETUA2_Egzaminas.API.Services
     public class UserService : IUserService
     {
         private readonly AppDbContext _context;
-        private readonly IUserManagerService _userManagerService;
+        private readonly IUserManagerRepository _userManagerService;
         private readonly IUserInfoRepository _userInfoRepository;
         private readonly IUserResidenceRepository _userResidenceRepository;
         private readonly ILogger _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(AppDbContext context,
-            IUserManagerService userDbService,
+            IUserManagerRepository userDbService,
             ILogger<UserService> logger,
             IHttpContextAccessor httpContextAccessor,
             IUserInfoRepository userInfoRepository,
@@ -34,7 +34,7 @@ namespace NETUA2_Egzaminas.API.Services
         }
 
         //=========================User methods=========================================
-        public User? CreateAccount(string userName, string password, string email, string role)
+        public User? CreateAccount(string userName, string password, string email)
         {
             CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
             var found = _context.Users.Any(u => u.UserName == userName);
@@ -51,7 +51,7 @@ namespace NETUA2_Egzaminas.API.Services
                 Email = email,
                 Password = passwordHash,
                 PasswordSalt = passwordSalt,
-                Role = role
+                Role = "User"
             };
 
             _userManagerService.SaveUser(user);
@@ -70,6 +70,10 @@ namespace NETUA2_Egzaminas.API.Services
         {
             var userId = _userManagerService.GetUserById(id);
             return userId;
+        }
+        public bool CheckIfUserIsAdmin(User user)
+        {
+            return _userManagerService.CheckIfUserIsAdmin(user);
         }
 
         public void DeleteUser(User user)
@@ -130,6 +134,11 @@ namespace NETUA2_Egzaminas.API.Services
                 return new ResponseDTO(false, "User Info creation failed...");
             }
             return new ResponseDTO(true, "User Info created successfully!");
+        }
+
+        public void UpdateUserInfoToDb(UserInfo userInfoToUpdate)
+        {
+            _userInfoRepository.UpdateUserInfo(userInfoToUpdate);
         }
         //=========================User Residence methods=========================================
     }

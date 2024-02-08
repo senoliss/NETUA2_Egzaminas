@@ -46,7 +46,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         [HttpPost("Register")]
         public IActionResult Register(RegisterUserDTO dto)
         {
-            var user = _userService.CreateAccount(dto.UserName, dto.Password, dto.Email, dto.Role);
+            var user = _userService.CreateAccount(dto.UserName, dto.Password, dto.Email);
             if (user == null)       // kaip padaryti logika kad vadovaujantis SOLID principu cia nebutu null checko
             {
                 return BadRequest("User already exists");
@@ -57,11 +57,18 @@ namespace NETUA2_Egzaminas.API.Controllers
         public IActionResult Delete(int id)
         {
             // Implement deletion only for admins.
-            // Mayne add reason why user was deleted and track data of deleted users for some time.
-            // Also add temporary ban options.
+            int currUserId = _userService.GetCurrentUserId();
+            var currUser = _userService.GetUserById(currUserId);
+            bool isAdmin = _userService.CheckIfUserIsAdmin(currUser);
+            if(!isAdmin)
+            {
+                return BadRequest("User is not admin, cannot delete anything!");
+            }
             var userToDelete = _userService.GetUserById(id);
             _userService.DeleteUser(userToDelete);
             return Ok(userToDelete);
+            // Mayne add reason why user was deleted and track data of deleted users for some time.
+            // Also add temporary ban options.
         }
     }
 }
