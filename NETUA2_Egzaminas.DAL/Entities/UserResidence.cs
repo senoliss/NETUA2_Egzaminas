@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace NETUA2_Egzaminas.DAL.Entities
@@ -20,6 +21,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int FlatNumber { get; set; }
 
         // Navigation property
-        public UserInfo UserInfo { get; set; }  // Navigation to UserInfo entity
+        [JsonIgnore]
+        public UserInfo UserInfo { get; set; }  // Navigation to UserInfo entity    // CROSS REFERENCE WHICH CAUSES INFINITE LOOP WHEN FETCHING DATA. NEEDS SOLVING.
     }
 }

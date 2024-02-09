@@ -150,7 +150,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             _userResidenceRepository.AddUserResidence(userResidence);
 
             // Updates User Info with User Residence ID in DB
-            existingUserInfo.ResidenceId = userResidence.Id;
+            existingUserInfo.ResidenceId = (int)userResidence.Id;
             _userInfoRepository.UpdateUserInfo(existingUserInfo);
             return Ok();
         }
@@ -165,7 +165,8 @@ namespace NETUA2_Egzaminas.API.Controllers
                 return BadRequest("User has no personal information added yet!");
             }
 
-            var existingUserResidence = _userResidenceRepository.GetUserResidenceById((int)existingUserInfo.ResidenceId);
+            //var existingUserResidence = _userResidenceRepository.GetUserResidenceById((int)existingUserInfo.ResidenceId);
+            var existingUserResidence = existingUserInfo.Residence;
             if (existingUserResidence == null)
             {
                 return NotFound("User Residence not found");
@@ -177,7 +178,15 @@ namespace NETUA2_Egzaminas.API.Controllers
         [HttpPut("UpdateUserResidence")]
         public IActionResult UpdateUserResidence([FromBody] UpdateUserResidenceDTO updateUserResidenceDTO)
         {
-            var userResidenceToUpdate = _userResidenceRepository.GetUserResidenceById(_userId);
+            // Checks if the user already has residence created through userinfo
+            var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
+            if (existingUserInfo == null)
+            {
+                return BadRequest("User has no personal information added yet!");
+            }
+
+            //var userResidenceToUpdate = _userResidenceRepository.GetUserResidenceById((int)existingUserInfo.ResidenceId);
+            var userResidenceToUpdate = existingUserInfo.Residence;
             if (userResidenceToUpdate == null)
             {
                 return NotFound("User Residence not found");
@@ -192,7 +201,14 @@ namespace NETUA2_Egzaminas.API.Controllers
         [HttpDelete("DeleteUserResidence")]
         public IActionResult DeleteUserResidence()
         {
-            var userResidenceToDelete = _userResidenceRepository.GetUserResidenceById(_userId);
+            // Checks if the user already has residence created through userinfo
+            var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
+            if (existingUserInfo == null)
+            {
+                return BadRequest("User has no personal information added yet!");
+            }
+
+            var userResidenceToDelete = existingUserInfo.Residence;
             if (userResidenceToDelete == null)
             {
                 return NotFound("User Residence not found");
