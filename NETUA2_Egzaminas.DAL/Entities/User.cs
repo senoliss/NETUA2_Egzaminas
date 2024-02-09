@@ -17,5 +17,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public byte[] Password { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string Role { get; set; }
+
+        public UserInfo UserInfo { get; set; }  //Navigational property
     }
 }

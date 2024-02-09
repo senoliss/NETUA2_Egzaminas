@@ -1,0 +1,30 @@
++1. Ar atskiri entities User, userInfo ir userResidence? Y
++2. Ar gerai is controlerio kviesti UserService repozitorija kuri atitinkamai kviecia UserManagerService, UserInfoRepository ar UserResidenceRepository is .DAL projekto?
+Geriausia issitrinti userservice is .API ir kviesti .DAL repositorijas controlleriuose.
+
+
++3. Kada ir kur nesiotis/mappint userId? Postinant userio info mapinu is postUserInfoDTO i UserInfo ir prikabinu userID is JWT tokeno, kaip elgtis kituose metoduose controleriu?
+DTO niekad nesinesiojam ID PK.
+
+
++4. Kodel netrigerina CreateUserInfo() metodo kontroleryje kai suvedama bloga info (a.k ir tel.nr kaip long vietoj int arba jei jau useris turi userInfo)?
+Swaggeris turi po kapisonu validatorius iki pasiekiant controllerius del to net netrigerino jei info neatitiko.
+
+
+
+
+
+================================== BENDRA INFO ====================================
+
+
+
+
+visos dtoshkes kuriost naudojamos post metoduose turi turet validtorius
+visi properciai turi but dokumentuojami tiek dto tiek entities
+image reiketu gauti atskirai nuo Note entities controlleryje nes didelis failas gali uzkimsti userio laukima
+user properciai dto yra stringai
+
+
+dokumentuoti butiniausia tik requestu DTO propercius
+
+

@@ -11,6 +11,6 @@ namespace NETUA2_Egzaminas.DAL
 		public DbSet<ProfileImage> ProfileImages { get; set; }
 		public AppDbContext(DbContextOptions options) : base(options)
 		{
-		}
+        }
 	}
 }

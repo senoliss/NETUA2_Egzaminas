@@ -4,7 +4,7 @@ namespace NETUA2_Egzaminas.DAL.Interfaces
 {
     public interface IImageRepository
     {
-        int AddImage(ProfileImage image);
+        void AddImage(ProfileImage image);
         ProfileImage GetImage(int id);
         void DeleteImage(int id);
     }

@@ -43,7 +43,10 @@ namespace NETUA2_Egzaminas
 			builder.Services.AddDbContext<AppDbContext>(options =>
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
-			});
+
+                // Enable logging of sql querries
+                options.LogTo(Console.WriteLine, LogLevel.Information);
+            });
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

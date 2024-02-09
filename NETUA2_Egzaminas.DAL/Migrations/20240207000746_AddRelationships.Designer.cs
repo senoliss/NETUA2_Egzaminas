@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NETUA2_Egzaminas.DAL;
 
@@ -11,9 +12,11 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240207000746_AddRelationships")]
+    partial class AddRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,8 +105,8 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PersonalID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PersonalID")
+                        .HasColumnType("int");
 
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
@@ -140,9 +143,8 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BuildingNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BuildingNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("FlatNumber")
                         .HasColumnType("int");
@@ -170,7 +172,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .WithOne("UserInfo")
                         .HasForeignKey("NETUA2_Egzaminas.DAL.Entities.UserInfo", "ResidenceId");
 
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.User", null)
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.User", "User")
                         .WithOne("UserInfo")
                         .HasForeignKey("NETUA2_Egzaminas.DAL.Entities.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -179,6 +181,8 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Navigation("Image");
 
                     b.Navigation("Residence");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.User", b =>

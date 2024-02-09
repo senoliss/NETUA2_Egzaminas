@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace NETUA2_Egzaminas.DAL.Repositories
 {
-    public class UserManagerService : IUserManagerService
+    public class UserManagerRepository : IUserManagerRepository
 	{
 		private readonly AppDbContext _context;
 
-		public UserManagerService(AppDbContext context)
+		public UserManagerRepository(AppDbContext context)
 		{
 			_context = context;
 		}
@@ -24,6 +24,10 @@ namespace NETUA2_Egzaminas.DAL.Repositories
         public User GetUserById(int id)
         {
             return _context.Users.SingleOrDefault(u => u.UserId == id);
+        }
+		public bool CheckIfUserIsAdmin(User user)
+		{
+			return user != null && user.Role == "Admin";	// Checks if user is not empty and if it his role as Administrator
         }
 		public void SaveUser(User user)
 		{

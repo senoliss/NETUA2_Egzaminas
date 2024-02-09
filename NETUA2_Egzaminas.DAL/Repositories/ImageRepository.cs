@@ -13,11 +13,11 @@ namespace NETUA2_Egzaminas.API.Services
 			_context = context;
 		}
 
-		public int AddImage(ProfileImage image)
+		public void AddImage(ProfileImage image)
 		{
 			_context.ProfileImages.Add(image);
 			_context.SaveChanges();
-			return image.Id;
+			//return image.Id;
 		}
 
 		public ProfileImage GetImage(int id)
