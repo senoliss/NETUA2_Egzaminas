@@ -18,7 +18,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         /// This prop is string because sometimes houses are divided in subplaces like 29A 29B 29C etc
         /// </summary>
         public string BuildingNumber { get; set; }
-        public int FlatNumber { get; set; }
+        public string FlatNumber { get; set; }
 
         // Navigation property
         [JsonIgnore]

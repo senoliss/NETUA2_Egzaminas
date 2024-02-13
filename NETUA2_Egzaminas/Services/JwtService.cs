@@ -16,7 +16,7 @@ namespace NETUA2_Egzaminas.API.Services
             _configuration = configuration;
         }
 
-        public string GetJwtToken(int userId, string userName)
+        public string GetJwtToken(int userId, string userName, string role)
         {
             var secretKey = _configuration.GetSection("Jwt:Key").Value;
             var issuer = _configuration.GetSection("Jwt:Issuer").Value;
@@ -26,7 +26,7 @@ namespace NETUA2_Egzaminas.API.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Name, userName),
-                //new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

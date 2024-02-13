@@ -37,7 +37,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             loginMsg = $"Successful login for username: {dto.UserName}, role: {role}";
             _logger.LogInformation(loginMsg);
 
-            var token = _jwtService.GetJwtToken((int)userId, dto.UserName);
+            var token = _jwtService.GetJwtToken((int)userId, dto.UserName, role);
 
             //return new LoginResponseDTO(true, loginMsg, (int)userId, role, token);
             return Ok(token);
