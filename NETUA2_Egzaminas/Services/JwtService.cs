@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using NETUA2_Egzaminas.API.Interfaces;
 using System.Data;
+using NETUA2_Egzaminas.DAL.Entities;
 
 namespace NETUA2_Egzaminas.API.Services
 {
@@ -16,7 +17,7 @@ namespace NETUA2_Egzaminas.API.Services
             _configuration = configuration;
         }
 
-        public string GetJwtToken(int userId, string userName, string role)
+        public string GetJwtToken(User user)
         {
             var secretKey = _configuration.GetSection("Jwt:Key").Value;
             var issuer = _configuration.GetSection("Jwt:Issuer").Value;
@@ -24,9 +25,9 @@ namespace NETUA2_Egzaminas.API.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

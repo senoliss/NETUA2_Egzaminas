@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NETUA2_Egzaminas.API.DTOs;
+using NETUA2_Egzaminas.API.Interfaces;
+using NETUA2_Egzaminas.BLL.Interfaces;
 using NETUA2_Egzaminas.DAL.Entities;
 using NETUA2_Egzaminas.DAL.Interfaces;
 using NETUA2_Egzaminas.DAL.Repositories;
+using System.Net.Mime;
 using System.Security.Claims;
 
 namespace NETUA2_Egzaminas.API.Controllers
@@ -13,88 +16,121 @@ namespace NETUA2_Egzaminas.API.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	[Authorize]
-	public class ImageController : ControllerBase
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public class ImageController : ControllerBase
 	{
 		private readonly IImageRepository _imageRepository;
+		private readonly IImageService _imageService;
+        private readonly IImageMapper _imageMapper;
 		private readonly ILogger<ImageController> _logger;
         private readonly IUserInfoRepository _userInfoRepository;
         private readonly int _userId;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ImageController(IImageRepository imageRepository, 
+        public ImageController(IImageService imageService, 
 								ILogger<ImageController> logger,
 								IUserInfoRepository userInfoRepository,
-                                IHttpContextAccessor httpContextAccessor)
+                                IHttpContextAccessor httpContextAccessor, IImageMapper imageMapper)
 		{
-			_imageRepository = imageRepository;
+            _imageService = imageService;
+            _imageMapper = imageMapper;
             _userInfoRepository = userInfoRepository;
             _logger = logger;
             _userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             _httpContextAccessor = httpContextAccessor;
         }
 
-
+        /// <summary>
+        /// Upload image file to DB for logged in user.
+        /// </summary>
+        /// <param name="dto">Image Data Trasnfer Object.</param>
+        /// <returns>Returns uploaded Image Id if status 200OK.</returns>
 		[HttpPost("uploadImage")]
-		public IActionResult PostImage([FromForm] PostImageDTO dto)
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult PostImage([FromForm] PostImageDTO dto)
 		{
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
             {
+                _logger.LogWarning($"User Id: {_userId} - has no personal information added yet!");
                 return BadRequest("User has no personal information added yet!");
             }
 
-            using var memoryStream = new MemoryStream();
-			dto.Image.CopyTo(memoryStream);
-			var imageBytes = memoryStream.ToArray();
-			var imageFile = new ProfileImage
-			{
-				ImageBytes = imageBytes,
-				Description = dto.Image.ContentType,
-				Name = dto.Image.FileName,
-				Size = imageBytes.Length
-			};
+			_logger.LogInformation($"Trying to POST Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
 
-			_imageRepository.AddImage(imageFile);
+            // if user has image delete previous one and post new one in its place
+            var mappedImage = _imageMapper.Map(dto);
+
+            _imageService.AttemptAddImage(mappedImage, (int)existingUserInfo.ImageId);
 
 			// Updates the ImageId field with value of image file id and saves to db.
-            existingUserInfo.ImageId = imageFile.Id;
+            existingUserInfo.ImageId = mappedImage.Id;
             _userInfoRepository.UpdateUserInfo(existingUserInfo);
 
-            return Ok(imageFile.Id);
+            _logger.LogInformation($"Image file succesfully uploaded for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+            return Created(nameof(DownloadImage), new { id = mappedImage.Id });
 		}
 
-		[HttpGet("downloadImage")]
-		public IActionResult DownloadImage()
+        /// <summary>
+        /// Downloads logged in user image.
+        /// </summary>
+        /// <response code="403">Forbidden for not Admins.</response>
+        /// <returns>Returns Image file.</returns>
+        [HttpGet("downloadImage")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Produces(MediaTypeNames.Image.Png)]
+        public IActionResult DownloadImage()
 		{
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
             {
+                _logger.LogWarning($"User Id: {_userId} - has no personal information added yet!");
                 return BadRequest("User has no personal information added yet!");
             }
 
-            var imageFile = _imageRepository.GetImage((int)existingUserInfo.ImageId);
+            _logger.LogInformation($"Trying to GET Image {(int)existingUserInfo.ImageId} for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+
+            var imageFile = _imageService.GetImage((int)existingUserInfo.ImageId);
 			if (imageFile == null)
 			{
-				return NotFound();
+                _logger.LogWarning($"Failed to GET for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+                return NotFound();
 			}
 
-			return File(imageFile.ImageBytes, imageFile.Description, imageFile.Name);
+            _logger.LogInformation($"Successfully downloaded Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+            return File(imageFile.ImageBytes, imageFile.Description, imageFile.Name);
 		}
 	
-	
+	    /// <summary>
+        /// Deletes Image file for logged in user from DB.
+        /// </summary>
 		[HttpDelete("deleteImage")]
-		public IActionResult DeleteImage()
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteImage()
 		{
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
             {
+                _logger.LogWarning($"User Id: {_userId} - has no personal information added yet!");
                 return BadRequest("User has no personal information added yet!");
             }
+            if (existingUserInfo.ImageId == null)
+            {
+                _logger.LogWarning($"There is no Image to delete for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+                return NotFound();
+            }
 
-            _imageRepository.DeleteImage((int)existingUserInfo.ImageId);
+            _imageService.DeleteImage((int)existingUserInfo.ImageId);
+            _logger.LogInformation($"Image successfully deleted for - Name: {existingUserInfo.Name}, User Id: {_userId}");
 			return NoContent();
 		}
 	}

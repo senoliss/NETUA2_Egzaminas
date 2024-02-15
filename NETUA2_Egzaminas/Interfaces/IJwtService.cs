@@ -1,7 +1,9 @@
-﻿namespace NETUA2_Egzaminas.API.Interfaces
+﻿using NETUA2_Egzaminas.DAL.Entities;
+
+namespace NETUA2_Egzaminas.API.Interfaces
 {
     public interface IJwtService
     {
-        string GetJwtToken(int userId, string userName, string role);
+        string GetJwtToken(User user);
     }
 }

@@ -58,6 +58,10 @@ namespace NETUA2_Egzaminas.API.Services
 
             return user;
         }
+        public User GetUser(string userName)
+        {
+            return _userManagerService.GetUser(userName);
+        }
 
         // Gets authenticated user info through claims
         public int GetCurrentUserId()
@@ -71,6 +75,11 @@ namespace NETUA2_Egzaminas.API.Services
             var userId = _userManagerService.GetUserById(id);
             return userId;
         }
+        public List<User> GetAll()
+        {
+            var users = _context.Users.Include(u => u.UserInfo).ToList();
+            return users;
+        }
         public bool CheckIfUserIsAdmin(User user)
         {
             return _userManagerService.CheckIfUserIsAdmin(user);
@@ -81,24 +90,19 @@ namespace NETUA2_Egzaminas.API.Services
             _userManagerService.DeleteUser(user);
         }
 
-        public ResponseDTO TryLogin(string userName, string password, out int? userId, out string role)
+        public ResponseDTO TryLogin(User user, string pass)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
             if (user == null)
             {
-                _logger.LogWarning($"User {userName} does not exist.");
-                userId = null;
-                role = user.Role;
-                return new ResponseDTO(false, $"User {userName} does not exist.");
+                _logger.LogWarning($"User does not exist.");
+                return new ResponseDTO(false, $"User does not exist.");
             }
 
-            userId = user.UserId;
-            role = user.Role;
-            var verified = TryVerifyPasswordHash(password, user.Password, user.PasswordSalt);
+            var verified = TryVerifyPasswordHash(pass, user.Password, user.PasswordSalt);
             if (!verified)
             {
-                _logger.LogWarning($"Password for user {userName} is wrong.");
-                return new ResponseDTO(false, $"Password for user {userName} is wrong.");
+                _logger.LogWarning($"Password for user {user.UserName} is wrong.");
+                return new ResponseDTO(false, $"Password for user {user.UserName} is wrong.");
             }
             return new ResponseDTO(true, "User connected successfully!");
         }
@@ -140,6 +144,9 @@ namespace NETUA2_Egzaminas.API.Services
         {
             _userInfoRepository.UpdateUserInfo(userInfoToUpdate);
         }
+
+        
+
         //=========================User Residence methods=========================================
     }
 }

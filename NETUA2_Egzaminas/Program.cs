@@ -20,6 +20,7 @@ namespace NETUA2_Egzaminas
             // Add services to the container.
 
             builder.Services.AddAPIServices();
+            builder.Services.AddBLLServices();
             builder.Services.AddDatabaseServices();
 
             builder.Services.AddHttpContextAccessor();

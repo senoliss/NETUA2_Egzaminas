@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Klausimai_Info.txt = Klausimai_Info.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Tests", "Solution Tests", "{F7E22B24-900A-4FCA-B3F0-8BFE424D1DF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETUA2_Egzaminas.APITests", "NETUA2_Egzaminas.APITests\NETUA2_Egzaminas.APITests.csproj", "{698A58B0-2ABB-4277-A22A-D21CE652D8FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +36,16 @@ Global
 		{A677C353-6F59-4650-8EA1-8EF4CF34D5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A677C353-6F59-4650-8EA1-8EF4CF34D5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A677C353-6F59-4650-8EA1-8EF4CF34D5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{698A58B0-2ABB-4277-A22A-D21CE652D8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698A58B0-2ABB-4277-A22A-D21CE652D8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698A58B0-2ABB-4277-A22A-D21CE652D8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698A58B0-2ABB-4277-A22A-D21CE652D8FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{698A58B0-2ABB-4277-A22A-D21CE652D8FD} = {F7E22B24-900A-4FCA-B3F0-8BFE424D1DF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5B237B18-7A3A-46A9-B284-B6482D9911F1}

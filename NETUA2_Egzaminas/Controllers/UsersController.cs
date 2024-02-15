@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NETUA2_Egzaminas.API.DTOs;
 using NETUA2_Egzaminas.API.Interfaces;
-using NETUA2_Egzaminas.DAL.Interfaces;
-using NETUA2_Egzaminas.DAL.Repositories;
+using NETUA2_Egzaminas.DAL.Entities;
+using System.Net.Mime;
 
 namespace NETUA2_Egzaminas.API.Controllers
 {
@@ -15,6 +15,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         private readonly IJwtService _jwtService;
         //private readonly IAcountsValidationService _validationService;
         private readonly ILogger<UsersController> _logger;
+        private string loggingMessage;
 
         public UsersController(IUserService userService, IJwtService jwtService, ILogger<UsersController> logger)
         {
@@ -23,52 +24,128 @@ namespace NETUA2_Egzaminas.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Logins user, checks password hash.
+        /// </summary>
+        /// <param name="dto">User Login Data Trasnfer Object.</param>
+        /// <returns>String of JWT token with OK response.</returns>
         [HttpPost("Login")]
+        [Produces(MediaTypeNames.Text.Plain)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult Login(LoginUserDTO dto)
         {
-            var loginSuccess = _userService.TryLogin(dto.UserName, dto.Password, out int? userId, out string role);
-            var loginMsg = "";
+            loggingMessage = "";
+            var user = _userService.GetUser(dto.UserName);
+
+            var loginSuccess = _userService.TryLogin(user, dto.Password);
             if (!loginSuccess.IsSuccess)
             {
-                loginMsg = $"Failed login attempt for username: {dto.UserName}";
-                _logger.LogWarning(loginMsg);
-                //return new LoginResponseDTO(false, loginMsg, (int)userId, role, null);
+                loggingMessage = $"Failed login attempt for - username: {dto.UserName}. " + loginSuccess.Message;
+                _logger.LogWarning(loggingMessage);
+
+                return NotFound(loginSuccess.Message);
             }
-            loginMsg = $"Successful login for username: {dto.UserName}, role: {role}";
-            _logger.LogInformation(loginMsg);
 
-            var token = _jwtService.GetJwtToken((int)userId, dto.UserName, role);
+            loggingMessage = $"Successful login for - username: {user.UserName}, role: {user.Role}";
+            _logger.LogInformation(loggingMessage);
 
-            //return new LoginResponseDTO(true, loginMsg, (int)userId, role, token);
+            var token = _jwtService.GetJwtToken(user);
+
             return Ok(token);
 
         }
+
+        /// <summary>
+        /// Creates user.
+        /// </summary>
+        /// <param name="dto">User Register Data Trasnfer Object.</param>
+        /// <returns>The created User object with OK response.</returns>
         [HttpPost("Register")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public IActionResult Register(RegisterUserDTO dto)
         {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to Register for - username: {dto.UserName}";
+            _logger.LogInformation(loggingMessage);
+
+            // maybe map an account here
             var user = _userService.CreateAccount(dto.UserName, dto.Password, dto.Email);
             if (user == null)       // kaip padaryti logika kad vadovaujantis SOLID principu cia nebutu null checko
             {
+                loggingMessage = $"Failed Registration for - username: {user.UserName}, {user.Role}. User already exists.";
+                _logger.LogWarning(loggingMessage);
+
                 return BadRequest("User already exists");
             }
+
+            loggingMessage = $"Successfully Registered user - username: {user.UserName}, {user.Role}";
+            _logger.LogInformation(loggingMessage);
+
             return Ok(user);
         }
+
+        /// <summary>
+        /// Removes user account from DB. Accesible for Admins.
+        /// </summary>
+        /// <param name="id">Id of the user to delete.</param>
+        /// <response code="403">Forbidden for not Admins.</response>
+        /// <returns>The deleted User object with OK response.</returns>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
-            // Implement deletion only for admins.
-            int currUserId = _userService.GetCurrentUserId();
-            var currUser = _userService.GetUserById(currUserId);
-            bool isAdmin = _userService.CheckIfUserIsAdmin(currUser);
-            if(!isAdmin)
-            {
-                return BadRequest("User is not admin, cannot delete anything!");
-            }
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to Delete - User Id: {id}";
+            _logger.LogInformation(loggingMessage);
+
             var userToDelete = _userService.GetUserById(id);
+
+            if (userToDelete == null)
+            {
+                loggingMessage = $"User not found for - User Id: {id}, {userToDelete.UserName}, {userToDelete.Role}";
+                _logger.LogWarning(loggingMessage);
+
+                return NotFound();
+            }
+
+            loggingMessage = $"User found for - User Id: {id}, {userToDelete.UserName}, {userToDelete.Role}";
+            _logger.LogInformation(loggingMessage);
+
             _userService.DeleteUser(userToDelete);
+
+
+            loggingMessage = $"User Deleted - User Id: {id}, {userToDelete.UserName}, {userToDelete.Role}";
+            _logger.LogInformation(loggingMessage);
+
             return Ok(userToDelete);
+
             // Mayne add reason why user was deleted and track data of deleted users for some time.
             // Also add temporary ban options.
+        }
+
+        /// <summary>
+        /// Gets all the users from db. For Admins.
+        /// </summary>
+        /// <returns>Returns list of Users with Ok response.<see cref="List{User}"/></returns>
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAll()
+        {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to GET all users.";
+            _logger.LogInformation(loggingMessage);
+
+            return Ok(_userService.GetAll());
         }
     }
 }
