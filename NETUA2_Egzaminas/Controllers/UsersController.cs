@@ -136,8 +136,12 @@ namespace NETUA2_Egzaminas.API.Controllers
         /// Gets all the users from db. For Admins.
         /// </summary>
         /// <returns>Returns list of Users with Ok response.<see cref="List{User}"/></returns>
+        /// <response code="401">Unauthorized access.</response>
         [Authorize(Roles = "Admin")]
         [HttpGet("GetAllUsers")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetAll()
         {
             loggingMessage = "";

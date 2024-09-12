@@ -1,4 +1,4 @@
-﻿ using Azure.Core;
+﻿using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,27 +13,27 @@ using System.Security.Claims;
 
 namespace NETUA2_Egzaminas.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	[Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class ImageController : ControllerBase
-	{
-		private readonly IImageRepository _imageRepository;
-		private readonly IImageService _imageService;
+    {
+        private readonly IImageRepository _imageRepository;
+        private readonly IImageService _imageService;
         private readonly IImageMapper _imageMapper;
-		private readonly ILogger<ImageController> _logger;
+        private readonly ILogger<ImageController> _logger;
         private readonly IUserInfoRepository _userInfoRepository;
         private readonly int _userId;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ImageController(IImageService imageService, 
-								ILogger<ImageController> logger,
-								IUserInfoRepository userInfoRepository,
+        public ImageController(IImageService imageService,
+                                ILogger<ImageController> logger,
+                                IUserInfoRepository userInfoRepository,
                                 IHttpContextAccessor httpContextAccessor, IImageMapper imageMapper)
-		{
+        {
             _imageService = imageService;
             _imageMapper = imageMapper;
             _userInfoRepository = userInfoRepository;
@@ -51,7 +51,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult PostImage([FromForm] PostImageDTO dto)
-		{
+        {
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
@@ -60,20 +60,24 @@ namespace NETUA2_Egzaminas.API.Controllers
                 return BadRequest("User has no personal information added yet!");
             }
 
-			_logger.LogInformation($"Trying to POST Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+            _logger.LogInformation($"Trying to POST Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
 
             // if user has image delete previous one and post new one in its place
             var mappedImage = _imageMapper.Map(dto);
 
-            _imageService.AttemptAddImage(mappedImage, (int)existingUserInfo.ImageId);
+            if (existingUserInfo.ImageId != null || existingUserInfo.ImageId == 0)
+            {
+                _imageService.AttemptAddImage(mappedImage, (int)existingUserInfo.ImageId);
+            }
+            _imageService.AddImage(mappedImage);
 
-			// Updates the ImageId field with value of image file id and saves to db.
+            // Updates the ImageId field with value of image file id and saves to db.
             existingUserInfo.ImageId = mappedImage.Id;
             _userInfoRepository.UpdateUserInfo(existingUserInfo);
 
             _logger.LogInformation($"Image file succesfully uploaded for - Name: {existingUserInfo.Name}, User Id: {_userId}");
             return Created(nameof(DownloadImage), new { id = mappedImage.Id });
-		}
+        }
 
         /// <summary>
         /// Downloads logged in user image.
@@ -86,7 +90,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Produces(MediaTypeNames.Image.Png)]
         public IActionResult DownloadImage()
-		{
+        {
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
@@ -95,27 +99,34 @@ namespace NETUA2_Egzaminas.API.Controllers
                 return BadRequest("User has no personal information added yet!");
             }
 
-            _logger.LogInformation($"Trying to GET Image {(int)existingUserInfo.ImageId} for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+            if (existingUserInfo.ImageId == null)
+            {
+                _logger.LogWarning($"Failed to GET image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Trying to GET Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
 
             var imageFile = _imageService.GetImage((int)existingUserInfo.ImageId);
-			if (imageFile == null)
-			{
-                _logger.LogWarning($"Failed to GET for - Name: {existingUserInfo.Name}, User Id: {_userId}");
+
+            if (imageFile == null)
+            {
+                _logger.LogWarning($"Failed to GET image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
                 return NotFound();
-			}
+            }
 
             _logger.LogInformation($"Successfully downloaded Image for - Name: {existingUserInfo.Name}, User Id: {_userId}");
             return File(imageFile.ImageBytes, imageFile.Description, imageFile.Name);
-		}
-	
-	    /// <summary>
+        }
+
+        /// <summary>
         /// Deletes Image file for logged in user from DB.
         /// </summary>
-		[HttpDelete("deleteImage")]
+        [HttpDelete("deleteImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult DeleteImage()
-		{
+        {
             // Checks if the user already has info created
             var existingUserInfo = _userInfoRepository.GetUserInfoById(_userId);
             if (existingUserInfo == null)
@@ -131,7 +142,7 @@ namespace NETUA2_Egzaminas.API.Controllers
 
             _imageService.DeleteImage((int)existingUserInfo.ImageId);
             _logger.LogInformation($"Image successfully deleted for - Name: {existingUserInfo.Name}, User Id: {_userId}");
-			return NoContent();
-		}
-	}
+            return NoContent();
+        }
+    }
 }
