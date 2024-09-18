@@ -12,8 +12,8 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240207000746_AddRelationships")]
-    partial class AddRelationships
+    [Migration("20240918194458_trying_to_add_items_to_db")]
+    partial class trying_to_add_items_to_db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,30 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
+                });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.ProfileImage", b =>
                 {
@@ -105,11 +129,13 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonalID")
-                        .HasColumnType("int");
+                    b.Property<string>("PersonalID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ResidenceId")
                         .HasColumnType("int");
@@ -143,11 +169,13 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BuildingNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("BuildingNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FlatNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("FlatNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -172,7 +200,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .WithOne("UserInfo")
                         .HasForeignKey("NETUA2_Egzaminas.DAL.Entities.UserInfo", "ResidenceId");
 
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.User", "User")
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.User", null)
                         .WithOne("UserInfo")
                         .HasForeignKey("NETUA2_Egzaminas.DAL.Entities.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -181,8 +209,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Navigation("Image");
 
                     b.Navigation("Residence");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.User", b =>

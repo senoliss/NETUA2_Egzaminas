@@ -9,6 +9,7 @@ namespace NETUA2_Egzaminas.DAL
 		public DbSet<UserInfo> UsersInfo { get; set; }
 		public DbSet<UserResidence> UsersResidences { get; set; }
 		public DbSet<ProfileImage> ProfileImages { get; set; }
+		public DbSet<Item> Items { get; set; }
 		public AppDbContext(DbContextOptions options) : base(options)
 		{
         }

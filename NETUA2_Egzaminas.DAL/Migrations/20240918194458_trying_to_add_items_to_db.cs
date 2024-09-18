@@ -5,11 +5,26 @@
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class updated_entities : Migration
+    public partial class trying_to_add_items_to_db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "ProfileImages",
                 columns: table => new
@@ -27,6 +42,23 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersResidences",
                 columns: table => new
                 {
@@ -34,8 +66,8 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Town = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BuildingNumber = table.Column<int>(type: "int", nullable: false),
-                    FlatNumber = table.Column<int>(type: "int", nullable: false)
+                    BuildingNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FlatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,11 +82,12 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PersonalID = table.Column<int>(type: "int", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    PersonalID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false),
-                    ResidenceId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: true),
+                    ResidenceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -63,13 +96,17 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         name: "FK_UsersInfo_ProfileImages_ImageId",
                         column: x => x.ImageId,
                         principalTable: "ProfileImages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UsersInfo_UsersResidences_ResidenceId",
                         column: x => x.ResidenceId,
                         principalTable: "UsersResidences",
-                        principalColumn: "Id",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UsersInfo_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -81,12 +118,23 @@ namespace NETUA2_Egzaminas.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UsersInfo_ResidenceId",
                 table: "UsersInfo",
-                column: "ResidenceId");
+                column: "ResidenceId",
+                unique: true,
+                filter: "[ResidenceId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersInfo_UserId",
+                table: "UsersInfo",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Items");
+
             migrationBuilder.DropTable(
                 name: "UsersInfo");
 
@@ -95,6 +143,9 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "UsersResidences");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
