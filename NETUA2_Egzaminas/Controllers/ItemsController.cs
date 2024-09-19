@@ -23,6 +23,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             _jwtService = jwtService;
             _logger = logger;
         }
+
         [HttpGet("GetItemByID")]
         public IActionResult GetItemById(int id)
         {
@@ -32,6 +33,30 @@ namespace NETUA2_Egzaminas.API.Controllers
             _logger.LogInformation(loggingMessage);
 
             return Ok(_itemService.GetItemById(id));
+        }
+
+        [HttpPost("AddItem")]
+        public IActionResult AddItem(PostItemDTO dto)
+        {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to Add item - {dto.Name}";
+            _logger.LogInformation(loggingMessage);
+
+            // maybe map an account here
+            var item = _itemService.AddItem(dto.UserName, dto.Password, dto.Email);
+            if (item == null)       // kaip padaryti logika kad vadovaujantis SOLID principu cia nebutu null checko
+            {
+                loggingMessage = $"Failed Registration for - username: {item.UserName}, {item.Role}. User already exists.";
+                _logger.LogWarning(loggingMessage);
+
+                return BadRequest("User already exists");
+            }
+
+            loggingMessage = $"Successfully Registered user - username: {item.UserName}, {item.Role}";
+            _logger.LogInformation(loggingMessage);
+
+            return Ok(item);
         }
     }
 }

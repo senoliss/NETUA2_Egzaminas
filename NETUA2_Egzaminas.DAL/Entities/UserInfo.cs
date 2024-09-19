@@ -24,6 +24,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int UserId { get; set; }  // Foreign key to User table
         public int? ImageId { get; set; }  // Nullable foreign key to ProfileImage table
         public int? ResidenceId { get; set; }  // Nullable foreign key to UserResidence table
+        public int? ItemId { get; set; }  // Nullable foreign key to Items table
 
         // Navigation properties
         //public User User { get; set; }  // Navigation to User entity        // Cross reference reiktu sutvarkyti kad nesigautu loop'as kai User modelis uzsikrauna UserInfo tada UserInfo uzsikrauna User ir t.t.
@@ -31,5 +32,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public ProfileImage Image { get; set; }  // Navigation to ProfileImage entity
         [JsonIgnore]    // a decorator to escape infinite loop of serialization when there's cross reference of navigational properties
         public UserResidence Residence { get; set; }  // Navigation to UserResidence entity
+        [JsonIgnore]
+        public Item Item { get; set; }                // Navitaional property to Items database
     }
 }
