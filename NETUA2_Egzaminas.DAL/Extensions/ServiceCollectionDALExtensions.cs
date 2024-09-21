@@ -15,6 +15,7 @@ namespace NETUA2_Egzaminas.DAL.Extensions
         public static void AddDatabaseServices(this IServiceCollection services)
         {
             services.AddScoped<IUserManagerRepository, UserManagerRepository>();
+            services.AddScoped<IItemManagerRepository, ItemManagerRepository>();
 			services.AddScoped<IImageRepository, ImageRepository>();
 		}
     }

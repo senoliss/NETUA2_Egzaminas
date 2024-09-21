@@ -12,8 +12,8 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240918195331_trying_to_tie_items_to_user")]
-    partial class trying_to_tie_items_to_user
+    [Migration("20240921132944_updating_item_entity")]
+    partial class updating_item_entity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,17 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -41,10 +45,18 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Stats")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.ToTable("Items");
                 });
@@ -125,7 +137,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -203,9 +215,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasOne("NETUA2_Egzaminas.DAL.Entities.Item", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ItemId");
 
                     b.HasOne("NETUA2_Egzaminas.DAL.Entities.UserResidence", "Residence")
                         .WithOne("UserInfo")

@@ -24,13 +24,17 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -38,10 +42,18 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Stats")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.ToTable("Items");
                 });

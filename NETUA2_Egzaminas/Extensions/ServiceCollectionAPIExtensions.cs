@@ -18,6 +18,7 @@ namespace NETUA2_Egzaminas.API.Extensions
             services.AddTransient<IUserResidenceMapper, UserResidenceMapper>();
             services.AddTransient<IUserResidenceRepository, UserResidenceRepository>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();
+            services.AddTransient<IItemService, ItemService>();
         }
     }
 }

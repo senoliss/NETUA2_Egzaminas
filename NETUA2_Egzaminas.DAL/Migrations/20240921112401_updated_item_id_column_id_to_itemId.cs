@@ -5,7 +5,7 @@
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class trying_to_add_items_to_db : Migration
+    public partial class updated_item_id_column_id_to_itemId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,7 +14,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -22,7 +22,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.ItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,11 +87,17 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: true),
-                    ResidenceId = table.Column<int>(type: "int", nullable: true)
+                    ResidenceId = table.Column<int>(type: "int", nullable: true),
+                    ItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UsersInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersInfo_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId");
                     table.ForeignKey(
                         name: "FK_UsersInfo_ProfileImages_ImageId",
                         column: x => x.ImageId,
@@ -116,6 +122,11 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 column: "ImageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UsersInfo_ItemId",
+                table: "UsersInfo",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UsersInfo_ResidenceId",
                 table: "UsersInfo",
                 column: "ResidenceId",
@@ -133,10 +144,10 @@ namespace NETUA2_Egzaminas.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "UsersInfo");
 
             migrationBuilder.DropTable(
-                name: "UsersInfo");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "ProfileImages");

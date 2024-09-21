@@ -11,6 +11,7 @@ namespace NETUA2_Egzaminas.DAL.Interfaces
     {
         void AddItem(Item item);
         void RemoveItem(Item item);
-        Item GetItem(int id);
+        Item GetItemById(int id);
+        List<Item> GetAll();
     }
 }

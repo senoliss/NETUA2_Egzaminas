@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NETUA2_Egzaminas.API.DTOs;
 using NETUA2_Egzaminas.API.Interfaces;
-using NETUA2_Egzaminas.API.Services;
 using NETUA2_Egzaminas.DAL.Entities;
-using System.Net.Mime;
 
 namespace NETUA2_Egzaminas.API.Controllers
 {
@@ -24,6 +21,22 @@ namespace NETUA2_Egzaminas.API.Controllers
             _logger = logger;
         }
 
+        [HttpPost("AddItem")]
+        public IActionResult AddItem(PostItemDTO dto)
+        {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to Add item - {dto.Name}";
+            _logger.LogInformation(loggingMessage);
+
+            _itemService.AddItem(dto.Name, dto.Description, dto.Value);
+
+            loggingMessage = $"Successfully Added item: {dto.Name}";
+            _logger.LogInformation(loggingMessage);
+
+            return Ok();
+        }
+        
         [HttpGet("GetItemByID")]
         public IActionResult GetItemById(int id)
         {
@@ -35,28 +48,21 @@ namespace NETUA2_Egzaminas.API.Controllers
             return Ok(_itemService.GetItemById(id));
         }
 
-        [HttpPost("AddItem")]
-        public IActionResult AddItem(PostItemDTO dto)
+        [HttpGet("GetAllItems")]
+        public IActionResult GetAll()
         {
             loggingMessage = "";
 
-            loggingMessage = $"Trying to Add item - {dto.Name}";
+            loggingMessage = "Trying to Get All items";
             _logger.LogInformation(loggingMessage);
 
             // maybe map an account here
-            var item = _itemService.AddItem(dto.UserName, dto.Password, dto.Email);
-            if (item == null)       // kaip padaryti logika kad vadovaujantis SOLID principu cia nebutu null checko
-            {
-                loggingMessage = $"Failed Registration for - username: {item.UserName}, {item.Role}. User already exists.";
-                _logger.LogWarning(loggingMessage);
+            List<Item> items = _itemService.GetAll();
 
-                return BadRequest("User already exists");
-            }
-
-            loggingMessage = $"Successfully Registered user - username: {item.UserName}, {item.Role}";
+            loggingMessage = "Successfully fetched items";
             _logger.LogInformation(loggingMessage);
 
-            return Ok(item);
+            return Ok(items);
         }
     }
 }

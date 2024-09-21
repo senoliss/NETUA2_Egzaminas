@@ -12,8 +12,8 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240918195559_trying_to_tie_items_to_user2")]
-    partial class trying_to_tie_items_to_user2
+    [Migration("20240921112401_updated_item_id_column_id_to_itemId")]
+    partial class updated_item_id_column_id_to_itemId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -44,7 +44,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.ToTable("Items");
                 });

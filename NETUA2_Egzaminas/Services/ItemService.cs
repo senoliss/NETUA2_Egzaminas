@@ -13,57 +13,53 @@ namespace NETUA2_Egzaminas.API.Services
     {
         private readonly AppDbContext _context;
         private readonly IItemManagerRepository _itemManagerRepository;
-        private readonly IUserInfoRepository _userInfoRepository;
-        private readonly IUserResidenceRepository _userResidenceRepository;
         private readonly ILogger _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ItemService(AppDbContext context,
             ILogger<ItemService> logger,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IItemManagerRepository itemDbService)
         {
             _context = context;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _itemManagerRepository = itemDbService;
         }
 
         //=========================User methods=========================================
-        public void AddItem()
+        public void AddItem(string name, string description, int value)
         {
-            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
-            var found = _context.Users.Any(u => u.UserName == userName);
+            var found = _context.Items.Any(i => i.Name == name);
             if (found)
             {
-                _logger.LogError("User already exists");
-                //throw new System.Exception("User already exists");
-                return null;
+                _logger.LogError("Item already exists");
+                throw new System.Exception("Item already exists");
+                //return null;
             }
 
-            var user = new User
+            var item = new Item
             {
-                UserName = userName,
-                Email = email,
-                Password = passwordHash,
-                PasswordSalt = passwordSalt,
-                Role = "User"
+                Name = name,
+                Description = description,
+                Value = value
             };
 
-            _itemManagerRepository.AddItem(user);
+            _itemManagerRepository.AddItem(item);
 
-            return user;
+            //_context.Items.Add(item);
+            //_context.SaveChanges();
+
+            //return user;
         }
         public Item GetItemById(int id)
         {
-            return _userManagerService.GetUser(userName);
+            return _itemManagerRepository.GetItemById(id);
         }
         public List<Item> GetAll()
         {
-            var items = _context.Users.Include(u => u.UserInfo).ToList();
+            var items = _itemManagerRepository.GetAll();
             return items;
-        }
-        public void DeleteUser(User user)
-        {
-            _userManagerService.DeleteUser(user);
         }
     }
 }
