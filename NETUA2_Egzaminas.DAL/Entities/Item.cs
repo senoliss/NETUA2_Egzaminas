@@ -19,7 +19,11 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public string Type { get; set; }
         public string Description { get; set; }
         public int Value { get; set; }
-        [JsonInclude]
-        public string Stats { get; set; }
+        public bool? Stackable { get; set; }
+        public int? Count { get; set; }
+        public int? Level { get; set; }
+        public int? Defense { get; set; }
+        public int? Attack { get; set; }
+        public int? Durability { get; set; }
     }
 }

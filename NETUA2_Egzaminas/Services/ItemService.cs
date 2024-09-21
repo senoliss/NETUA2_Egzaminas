@@ -28,7 +28,7 @@ namespace NETUA2_Egzaminas.API.Services
         }
 
         //=========================User methods=========================================
-        public void AddItem(string name, string description, int value)
+        public void AddItem(string imgId, string name, string type, string description, int value)
         {
             var found = _context.Items.Any(i => i.Name == name);
             if (found)
@@ -40,7 +40,9 @@ namespace NETUA2_Egzaminas.API.Services
 
             var item = new Item
             {
+                ImgId = imgId,
                 Name = name,
+                Type = type,
                 Description = description,
                 Value = value
             };

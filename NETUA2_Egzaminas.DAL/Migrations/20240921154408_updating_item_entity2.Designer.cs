@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NETUA2_Egzaminas.DAL;
 
@@ -11,9 +12,11 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240921154408_updating_item_entity2")]
+    partial class updating_item_entity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,34 +33,34 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
-                    b.Property<int?>("Attack")
+                    b.Property<int>("Attack")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Count")
+                    b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Defense")
+                    b.Property<int>("Defense")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Durability")
+                    b.Property<int>("Durability")
                         .HasColumnType("int");
 
                     b.Property<string>("ImgId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Level")
+                    b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Stackable")
+                    b.Property<bool>("Stackable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Type")

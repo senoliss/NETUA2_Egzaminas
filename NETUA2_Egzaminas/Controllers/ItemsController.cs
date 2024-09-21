@@ -29,7 +29,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             loggingMessage = $"Trying to Add item - {dto.Name}";
             _logger.LogInformation(loggingMessage);
 
-            _itemService.AddItem(dto.Name, dto.Description, dto.Value);
+            _itemService.AddItem(dto.ImgId, dto.Name, dto.Type, dto.Description, dto.Value);
 
             loggingMessage = $"Successfully Added item: {dto.Name}";
             _logger.LogInformation(loggingMessage);
