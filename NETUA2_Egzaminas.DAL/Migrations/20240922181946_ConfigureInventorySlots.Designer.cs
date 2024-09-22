@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NETUA2_Egzaminas.DAL;
 
@@ -11,9 +12,11 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240922181946_ConfigureInventorySlots")]
+    partial class ConfigureInventorySlots
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,14 +111,14 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Amulet")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Amulet")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Armor")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Armor")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Boots")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Boots")
+                        .HasColumnType("int");
 
                     b.Property<int>("CharId")
                         .HasColumnType("int");
@@ -123,26 +126,26 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int?>("CharacterCharId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Gloves")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gloves")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Helmet")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Helmet")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Legs")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Legs")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RingLeft")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RingLeft")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RingRight")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RingRight")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Shield")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Shield")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Weapon")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Weapon")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -162,9 +165,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int>("CharId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CharacterCharId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Slot1Id")
                         .HasColumnType("int");
 
@@ -176,7 +176,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterCharId");
+                    b.HasIndex("CharId");
 
                     b.HasIndex("Slot1Id");
 
@@ -611,9 +611,11 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharInventory", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", "Character")
                         .WithMany("Inventory")
-                        .HasForeignKey("CharacterCharId");
+                        .HasForeignKey("CharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Slot1")
                         .WithMany()
@@ -629,6 +631,8 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("Slot3Id")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Character");
 
                     b.Navigation("Slot1");
 

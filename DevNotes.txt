@@ -1,0 +1,43 @@
+
+================================================== CharInventory ===============================================================
+CharInventory and Item tables will not have any relations. Items table is database of all items in the game in their base form, where as CahrInventory has Relation to Character and thus Character can have item objects in his inventory multipled many times. For example this is item entity:
+
+public class Item
+{
+    [Key]
+    public int ItemId { get; set; }
+    public string ImgId { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public string Description { get; set; }
+    public int Value { get; set; }
+    public bool? Stackable { get; set; }
+    public int? Count { get; set; }
+    public int? Level { get; set; }
+    public int? Defense { get; set; }
+    public int? Attack { get; set; }
+    public int? Durability { get; set; }
+}
+
+Some of the properties are nullable since different items have different properties.
+
+So lets take for example base object of Platinum ore from items db:
+
+		{
+			"id": 167,
+			"imgId": "B67",
+			"name": "Platinum Ore",
+			"type": "resource",
+			"description": "Raw platinum ore extracted from mines, highly valued in industry and jewelry.",
+			"stats": {
+				"weight": 1.4,
+				"rarity": "rare"
+			},
+			"stackable": true,
+			"count": 1
+		},
+
+Here our ore id from items id does not really matter when it is in inventory, main thing that matters is that it is stackable and how many it is so I could display it in characters inventory for example 12 platinum ores. 
+
+Conclusion: We take item object on some skilling event once and put it into inventory as separate object with no further relations to items table. When the same action repeats we take the object again from items inventory, check if we have it in inventory, if we do check if it is stackable > if true increase the count > if not check if we have space in inventory (if any of the slots are null) if yes then add to first null slot > if no space is available throw an message and discard the item.
+================================================== CharInventory ===============================================================

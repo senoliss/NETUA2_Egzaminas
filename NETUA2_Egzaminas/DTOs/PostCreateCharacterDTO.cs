@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NETUA2_Egzaminas.DAL.Entities;
 
-namespace NETUA2_Egzaminas.DAL.Entities
+namespace NETUA2_Egzaminas.API.DTOs
 {
-	public class Character
+    public class PostCreateCharacterDTO
     {
-        [Key]
-        public int CharId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NETUA2_Egzaminas.DAL.Entities
 {
-	public class CharAcheivements
+	public class CharAchievements
 	{
         [Key]
 		public int Id { get; set; }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NETUA2_Egzaminas.API.DTOs;
+using NETUA2_Egzaminas.DAL.Entities;
+using System.Net.Mime;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +11,21 @@ namespace NETUA2_Egzaminas.API.Controllers
     [ApiController]
     public class CharactersController : ControllerBase
     {
+
+        /// <summary>
+        /// Creates user.
+        /// </summary>
+        /// <param name="dto">User Register Data Trasnfer Object.</param>
+        /// <returns>The created User object with OK response.</returns>
+        [HttpPost("CreateCharacter")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Character), StatusCodes.Status200OK)]
+        public IActionResult CreateCharacter(PostCreateCharacterDTO dto)
+        {
+            return Ok(dto);
+        }
+
         // GET: api/<ValuesController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -20,12 +38,6 @@ namespace NETUA2_Egzaminas.API.Controllers
         public string Get(int id)
         {
             return "value";
-        }
-
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
         }
 
         // PUT api/<ValuesController>/5

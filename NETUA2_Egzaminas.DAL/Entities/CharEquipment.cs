@@ -11,16 +11,16 @@ namespace NETUA2_Egzaminas.DAL.Entities
 	{
         [Key]
         public int Id { get; set; }
-		public int Helmet { get; set; }
-		public int Armor { get; set; }
-		public int Weapon { get; set; }
-		public int Shield { get; set; }
-		public int Legs { get; set; }
-		public int Gloves { get; set; }
-		public int Boots { get; set; }
-		public int Amulet { get; set; }
-		public int RingLeft { get; set; }
-		public int RingRight { get; set; }
+		public string? Helmet { get; set; }
+		public string? Armor { get; set; }
+		public string? Weapon { get; set; }
+		public string? Shield { get; set; }
+		public string? Legs { get; set; }
+		public string? Gloves { get; set; }
+		public string? Boots { get; set; }
+		public string? Amulet { get; set; }
+		public string? RingLeft { get; set; }
+		public string? RingRight { get; set; }
 
 		// Foreign key properties
 		public int CharId { get; set; }  // Foreign key to Character table
