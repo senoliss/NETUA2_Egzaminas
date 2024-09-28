@@ -12,8 +12,8 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240922184818_ConfigureInventorySlots2")]
-    partial class ConfigureInventorySlots2
+    [Migration("20240927232232_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,9 +39,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int>("Attack")
                         .HasColumnType("int");
 
-                    b.Property<int>("CharId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Charisma")
                         .HasColumnType("int");
 
@@ -62,7 +59,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.ToTable("BaseStats");
                 });
 
-            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharAchievements", b =>
+            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharAchievement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,9 +68,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterCharId")
                         .HasColumnType("int");
 
                     b.Property<string>("DateOfCompletion")
@@ -98,7 +92,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterCharId");
+                    b.HasIndex("CharId");
 
                     b.ToTable("CharAchievements");
                 });
@@ -119,12 +113,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.Property<string>("Boots")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterCharId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Gloves")
                         .HasColumnType("nvarchar(max)");
@@ -149,8 +137,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterCharId");
-
                     b.ToTable("CharEquipment");
                 });
 
@@ -162,12 +148,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterCharId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Slot1Id")
                         .HasColumnType("int");
 
@@ -178,8 +158,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CharacterCharId");
 
                     b.HasIndex("Slot1Id");
 
@@ -199,9 +177,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterCharId")
                         .HasColumnType("int");
 
                     b.Property<string>("DateOfCompletion")
@@ -226,7 +201,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterCharId");
+                    b.HasIndex("CharId");
 
                     b.ToTable("CharQuests");
                 });
@@ -240,9 +215,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterCharId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -260,7 +232,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterCharId");
+                    b.HasIndex("CharId");
 
                     b.ToTable("CharSkills");
                 });
@@ -284,7 +256,13 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Experience")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAdmin")
@@ -306,6 +284,10 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.HasKey("CharId");
 
                     b.HasIndex("BaseStatsId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("InventoryId");
 
                     b.HasIndex("StatsId");
 
@@ -454,9 +436,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.Property<int>("Attack")
                         .HasColumnType("int");
 
-                    b.Property<int>("CharId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Charisma")
                         .HasColumnType("int");
 
@@ -598,26 +577,19 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.ToTable("UsersResidences");
                 });
 
-            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharAchievements", b =>
+            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharAchievement", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
-                        .WithMany("Achievements")
-                        .HasForeignKey("CharacterCharId");
-                });
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", "Character")
+                        .WithMany("AchievementsList")
+                        .HasForeignKey("CharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharEquipment", b =>
-                {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
-                        .WithMany("Equipment")
-                        .HasForeignKey("CharacterCharId");
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharInventory", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
-                        .WithMany("Inventory")
-                        .HasForeignKey("CharacterCharId");
-
                     b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Slot1")
                         .WithMany()
                         .HasForeignKey("Slot1Id")
@@ -642,16 +614,24 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharQuests", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", "Character")
                         .WithMany("Quests")
-                        .HasForeignKey("CharacterCharId");
+                        .HasForeignKey("CharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharSkills", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", "Character")
                         .WithMany("Skills")
-                        .HasForeignKey("CharacterCharId");
+                        .HasForeignKey("CharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Character", b =>
@@ -662,6 +642,18 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.CharEquipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.CharInventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("NETUA2_Egzaminas.DAL.Entities.Stats", "Stats")
                         .WithMany()
                         .HasForeignKey("StatsId")
@@ -669,6 +661,10 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("BaseStats");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Inventory");
 
                     b.Navigation("Stats");
                 });
@@ -704,11 +700,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Character", b =>
                 {
-                    b.Navigation("Achievements");
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("Inventory");
+                    b.Navigation("AchievementsList");
 
                     b.Navigation("Quests");
 

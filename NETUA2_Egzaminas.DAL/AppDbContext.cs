@@ -62,7 +62,7 @@ namespace NETUA2_Egzaminas.DAL
         /// <summary>
         /// Represents the CharAchievements table, storing achievements unlocked by characters.
         /// </summary>
-        public DbSet<CharAchievements> CharAchievements { get; set; }
+        public DbSet<CharAchievement> CharAchievements { get; set; }
 
         /// <summary>
         /// Represents the CharEquipment table, storing the equipment characters are wearing.
@@ -109,6 +109,25 @@ namespace NETUA2_Egzaminas.DAL
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
                 .HasForeignKey(c => c.Slot3Id)  // Foreign key in CharInventory for Slot3.
                 .OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+
+            // One-to-Many: Character to CharAchievements
+            modelBuilder.Entity<CharAchievement>()
+                .HasOne(ca => ca.Character)  // Each CharAchievement has one Character
+                .WithMany(c => c.AchievementsList)  // Each Character has many CharAchievements
+                .HasForeignKey(ca => ca.CharId)  // CharId is the FK in CharAchievement
+                .OnDelete(DeleteBehavior.Cascade);  // Optional: configure cascade delete if desired
+
+            modelBuilder.Entity<CharQuests>()
+                .HasOne(cq => cq.Character)
+                .WithMany(c => c.Quests)
+                .HasForeignKey(cq => cq.CharId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(cs => cs.Character)
+                .WithMany(c => c.Skills)
+                .HasForeignKey(cs => cs.CharId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Call the base method to ensure other configurations are applied.
             base.OnModelCreating(modelBuilder);

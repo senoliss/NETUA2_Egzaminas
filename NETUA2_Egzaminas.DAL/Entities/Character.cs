@@ -17,10 +17,18 @@ namespace NETUA2_Egzaminas.DAL.Entities
         // Navigational properties
         public BaseStats BaseStats { get; set; }
         public Stats Stats { get; set; }
-        public List<CharSkills> Skills { get; set; }
-        public List<CharQuests> Quests { get; set; }
-        public List<CharAchievements> Achievements { get; set; }
-        public List<CharEquipment> Equipment { get; set; }
-        public List<CharInventory> Inventory { get; set; }
+
+        // Collections for one-to-many relationships
+
+        public ICollection<CharSkills> Skills { get; set; }         // Practically no need of collection as skills are predetermined in number for all players
+        public ICollection<CharQuests> Quests { get; set; }         
+        public ICollection<CharAchievement> AchievementsList { get; set; }
+        public CharEquipment Equipment { get; set; }
+        public CharInventory Inventory { get; set; }
     }
 }
+
+
+// To DO:
+
+// Make equipment entity to have item instanses also

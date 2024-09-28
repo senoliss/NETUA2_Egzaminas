@@ -17,8 +17,8 @@ namespace NETUA2_Egzaminas.API.DTOs
         public Stats Stats { get; set; }
         public List<CharSkills> Skills { get; set; }
         public List<CharQuests> Quests { get; set; }
-        public List<CharAchievements> Achievements { get; set; }
-        public List<CharEquipment> Equipment { get; set; }
-        public List<CharInventory> Inventory { get; set; }
+        public List<CharAchievement> AchievementsList { get; set; }
+        public CharEquipment Equipment { get; set; }
+        public CharInventory Inventory { get; set; }
     }
 }

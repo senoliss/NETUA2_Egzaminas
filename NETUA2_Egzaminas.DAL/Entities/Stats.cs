@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace NETUA2_Egzaminas.DAL.Entities
@@ -10,6 +12,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
 	public class Stats
 	{
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         public int Health { get; set; }
         public int Magic { get; set; }
@@ -19,7 +22,8 @@ namespace NETUA2_Egzaminas.DAL.Entities
         public int Defense { get; set; }
         public int Charisma { get; set; }
 
-		// Foreign key properties
-		public int CharId { get; set; }  // Foreign key to Character table
-	}
+        // Foreign key properties
+        //[ForeignKey("CharId")]  // This tells EF Core that CharId is the FK for this navigation property
+        //public int CharId { get; set; }  // Foreign key to Character table
+    }
 }
