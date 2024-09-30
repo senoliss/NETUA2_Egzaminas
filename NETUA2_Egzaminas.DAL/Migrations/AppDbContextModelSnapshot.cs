@@ -211,25 +211,42 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CharId")
+                    b.Property<int?>("CharacterCharId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Level")
+                    b.Property<int?>("Skill1Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Skill2Id")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Xp")
-                        .HasColumnType("float");
+                    b.Property<int?>("Skill3Id")
+                        .HasColumnType("int");
 
-                    b.Property<int>("XpCap")
+                    b.Property<int?>("Skill4Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Skill5Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Skill6Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharId");
+                    b.HasIndex("CharacterCharId");
+
+                    b.HasIndex("Skill1Id");
+
+                    b.HasIndex("Skill2Id");
+
+                    b.HasIndex("Skill3Id");
+
+                    b.HasIndex("Skill4Id");
+
+                    b.HasIndex("Skill5Id");
+
+                    b.HasIndex("Skill6Id");
 
                     b.ToTable("CharSkills");
                 });
@@ -417,6 +434,32 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProfileImages");
+                });
+
+            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.SkillInstance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Xp")
+                        .HasColumnType("float");
+
+                    b.Property<int>("XpCap")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SkillInstance");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Stats", b =>
@@ -622,13 +665,51 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharSkills", b =>
                 {
-                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", "Character")
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.Character", null)
                         .WithMany("Skills")
-                        .HasForeignKey("CharId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CharacterCharId");
 
-                    b.Navigation("Character");
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill1")
+                        .WithMany()
+                        .HasForeignKey("Skill1Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill2")
+                        .WithMany()
+                        .HasForeignKey("Skill2Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill3")
+                        .WithMany()
+                        .HasForeignKey("Skill3Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill4")
+                        .WithMany()
+                        .HasForeignKey("Skill4Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill5")
+                        .WithMany()
+                        .HasForeignKey("Skill5Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.SkillInstance", "Skill6")
+                        .WithMany()
+                        .HasForeignKey("Skill6Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Skill1");
+
+                    b.Navigation("Skill2");
+
+                    b.Navigation("Skill3");
+
+                    b.Navigation("Skill4");
+
+                    b.Navigation("Skill5");
+
+                    b.Navigation("Skill6");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.Character", b =>

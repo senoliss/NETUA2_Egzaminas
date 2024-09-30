@@ -1,0 +1,184 @@
+{
+  "email": "testukas@gmail.com",
+  "name": "Blinda",
+  "level": 7,
+  "experience": 1274,
+  "class": "Miner",
+  "isAdmin": true,
+  "money": 8832,
+  "baseStats": {
+    "health": 10,
+    "magic": 10,
+    "attack": 10,
+    "strength": 10,
+    "agility": 10,
+    "defense": 10,
+    "charisma": 10
+  },
+  "stats": {
+    "health": 10,
+    "magic": 10,
+    "attack": 10,
+    "strength": 10,
+    "agility": 10,
+    "defense": 10,
+    "charisma": 10
+  },
+  "skills": [
+    {
+      "skill1Id": 0,
+      "skill1": {
+        "id": 0,
+        "name": "Woodcutting",
+        "level": 6,
+        "xp": 1381,
+        "xpCap": 2760
+      },
+      "skill2Id": 0,
+      "skill2": {
+        "id": 0,
+        "name": "Mining",
+        "level": 5,
+        "xp": 641,
+        "xpCap": 1380
+      },
+      "skill3Id": 0,
+      "skill3": {
+        "id": 0,
+        "name": "Fishing",
+        "level": 4,
+        "xp": 321,
+        "xpCap": 640
+      },
+      "skill4Id": 0,
+      "skill4": {
+        "id": 0,
+        "name": "Smithing",
+        "level": 1,
+        "xp": 1,
+        "xpCap": 80
+      },
+      "skill5Id": 0,
+      "skill5": {
+        "id": 0,
+        "name": "Cooking",
+        "level": 2,
+        "xp": 81,
+        "xpCap": 160
+      },
+      "skill6Id": 0,
+      "skill6": {
+        "id": 0,
+        "name": "Crafting",
+        "level": 3,
+        "xp": 161,
+        "xpCap": 320
+      }
+    }
+  ],
+  "quests": [
+    {
+      "name": "Save the Princess",
+      "details": "Save The Princess from a tall dark tower guarded by nasty dragon.",
+      "dateOfCompletion": "2024-09-29",
+      "status": "completed",
+      "reward": "gold"
+    },
+	{
+      "name": "Do the polka dance",
+      "details": "polka is always polka",
+      "dateOfCompletion": "1999-07-06",
+      "status": "completed",
+      "reward": "super boots"
+    }
+  ],
+  "achievementsList": [
+    {
+      "name": "Reach lvl 1",
+      "details": "nice",
+      "dateOfCompletion": "2024-09-29",
+      "status": "completed",
+      "reward": "gold"
+    },
+	{
+      "name": "Reach lvl 5",
+      "details": "very nice",
+      "dateOfCompletion": "1999-07-06",
+      "status": "completed",
+      "reward": "super boots"
+    },
+	{
+      "name": "Reach lvl 10",
+      "details": "a lot of many nices",
+      "dateOfCompletion": "2024-09-29",
+      "status": "completed",
+      "reward": "gold"
+    },
+	{
+      "name": "Reach lvl 15",
+      "details": "much wow",
+      "dateOfCompletion": "1999-07-06",
+      "status": "completed",
+      "reward": "super boots"
+    }
+  ],
+  "equipment": {
+    "helmet": "good",
+    "armor": "very nice",
+    "weapon": "stroing",
+    "shield": "sturdy",
+    "legs": "long",
+    "gloves": "fits",
+    "boots": "fast",
+    "amulet": "shiny",
+    "ringLeft": "is",
+    "ringRight": "not is"
+  },
+  "inventory": {
+    "slot1Id": 0,
+    "slot1": {
+      "id": 0,
+      "imgId": "B-31",
+      "name": "Apple",
+      "type": "food",
+      "description": "tasty red apple",
+      "value": 0,
+      "stackable": true,
+      "count": 1,
+      "level": 1,
+      "defense": 0,
+      "attack": 0,
+      "durability": 0
+    },
+    "slot2Id": 0,
+    "slot2": {
+      "id": 0,
+      "imgId": "A-48",
+      "name": "Dragon scimmy",
+      "type": "weapon",
+      "description": "red and sharp",
+      "value": 2500,
+      "stackable": false,
+      "count": 1,
+      "level": 20,
+      "defense": 20,
+      "attack": 50,
+      "durability": 450
+    },
+    "slot3Id": 0,
+    "slot3": {
+      "id": 0,
+      "imgId": "D-01",
+      "name": "Gold ring",
+      "type": "equipment",
+      "description": "Gold ring of sorts",
+      "value": 100,
+      "stackable": false,
+      "count": 1,
+      "level": 10,
+      "defense": 20,
+      "attack": 5,
+      "durability": 150
+    }
+  }
+}

@@ -110,8 +110,50 @@ namespace NETUA2_Egzaminas.DAL
                 .HasForeignKey(c => c.Slot3Id)  // Foreign key in CharInventory for Slot3.
                 .OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
 
-            // One-to-Many: Character to CharAchievements
-            modelBuilder.Entity<CharAchievement>()
+			// Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill1)  // Each CharInventory has one Slot1 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill1Id)  // Foreign key in CharInventory for Slot1.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
+
+			// Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill2)  // Each CharInventory has one Slot2 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill2Id)  // Foreign key in CharInventory for Slot2.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
+
+			// Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill3)  // Each CharInventory has one Slot3 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill3Id)  // Foreign key in CharInventory for Slot3.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+
+			// Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill4)  // Each CharInventory has one Slot1 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill4Id)  // Foreign key in CharInventory for Slot1.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
+
+			// Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill5)  // Each CharInventory has one Slot2 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill5Id)  // Foreign key in CharInventory for Slot2.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
+
+			// Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
+			modelBuilder.Entity<CharSkills>()
+				.HasOne(c => c.Skill6)  // Each CharInventory has one Slot3 item.
+				.WithMany()            // No back-reference from ItemInstance to CharInventory.
+				.HasForeignKey(c => c.Skill6Id)  // Foreign key in CharInventory for Slot3.
+				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+
+			// One-to-Many: Character to CharAchievements
+			modelBuilder.Entity<CharAchievement>()
                 .HasOne(ca => ca.Character)  // Each CharAchievement has one Character
                 .WithMany(c => c.AchievementsList)  // Each Character has many CharAchievements
                 .HasForeignKey(ca => ca.CharId)  // CharId is the FK in CharAchievement
@@ -121,12 +163,6 @@ namespace NETUA2_Egzaminas.DAL
                 .HasOne(cq => cq.Character)
                 .WithMany(c => c.Quests)
                 .HasForeignKey(cq => cq.CharId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CharSkills>()
-                .HasOne(cs => cs.Character)
-                .WithMany(c => c.Skills)
-                .HasForeignKey(cs => cs.CharId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Call the base method to ensure other configurations are applied.

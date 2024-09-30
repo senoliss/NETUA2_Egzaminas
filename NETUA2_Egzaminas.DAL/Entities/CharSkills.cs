@@ -14,16 +14,29 @@ namespace NETUA2_Egzaminas.DAL.Entities
         [Key]
         [JsonIgnore]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public double Xp { get; set; }
-        public int XpCap { get; set; }
+		// Inventory slots that reference ItemInstance (no cascade delete)
+		[ForeignKey("Skill1Id")]
+		public int? Skill1Id { get; set; }
+		public SkillInstance Skill1 { get; set; }
 
-        // Foreign key for Character
-        [ForeignKey("CharId")]  // Specify that CharId is the FK for Character
-        [JsonIgnore]
-        public int CharId { get; set; }  // Foreign key to Character table
-        [JsonIgnore]
-        public Character? Character { get; set; }
-    }
+        [ForeignKey("Skill2Id")]
+		public int? Skill2Id { get; set; }
+		public SkillInstance Skill2 { get; set; }
+
+		[ForeignKey("Skill3Id")]
+		public int? Skill3Id { get; set; }
+		public SkillInstance Skill3 { get; set; }
+
+		[ForeignKey("Skill4Id")]
+		public int? Skill4Id { get; set; }
+		public SkillInstance Skill4 { get; set; }
+
+		[ForeignKey("Skill5Id")]
+		public int? Skill5Id { get; set; }
+		public SkillInstance Skill5 { get; set; }
+
+		[ForeignKey("Skill6Id")]
+		public int? Skill6Id { get; set; }
+		public SkillInstance Skill6 { get; set; }
+	}
 }
