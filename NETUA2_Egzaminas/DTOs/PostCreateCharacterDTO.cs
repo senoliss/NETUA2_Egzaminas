@@ -15,7 +15,7 @@ namespace NETUA2_Egzaminas.API.DTOs
         // Navigational properties
         public BaseStats BaseStats { get; set; }
         public Stats Stats { get; set; }
-        public List<CharSkills> Skills { get; set; }
+        public CharSkills Skills { get; set; }
         public List<CharQuests> Quests { get; set; }
         public List<CharAchievement> AchievementsList { get; set; }
         public CharEquipment Equipment { get; set; }

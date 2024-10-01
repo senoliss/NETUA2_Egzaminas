@@ -20,7 +20,7 @@ namespace NETUA2_Egzaminas.DAL.Entities
 
         // Collections for one-to-many relationships
 
-        public ICollection<CharSkills> Skills { get; set; }         // Practically no need of collection as skills are predetermined in number for all players
+        public CharSkills Skills { get; set; }         // Practically no need of collection as skills are predetermined in number for all players
         public ICollection<CharQuests> Quests { get; set; }         
         public ICollection<CharAchievement> AchievementsList { get; set; }
         public CharEquipment Equipment { get; set; }

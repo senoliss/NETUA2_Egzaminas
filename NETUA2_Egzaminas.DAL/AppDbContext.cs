@@ -73,6 +73,8 @@ namespace NETUA2_Egzaminas.DAL
         /// Represents the CharInventory table, storing the inventory of characters. Each character can have multiple item instances in their inventory.
         /// </summary>
         public DbSet<CharInventory> CharInventory { get; set; }
+        public DbSet<ItemInstance> ItemInstances { get; set; }
+        public DbSet<SkillInstance> SkillInstances { get; set; }
 
         /// <summary>
         /// Constructor for the <see cref="AppDbContext"/> class. It takes <paramref name="options"/> to configure the context.
@@ -89,68 +91,69 @@ namespace NETUA2_Egzaminas.DAL
         /// <param name="modelBuilder">An object used to configure entity relationships and behaviors.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
             modelBuilder.Entity<CharInventory>()
                 .HasOne(c => c.Slot1)  // Each CharInventory has one Slot1 item.
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
-                .HasForeignKey(c => c.Slot1Id)  // Foreign key in CharInventory for Slot1.
-                .OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
+                .HasForeignKey(c => c.Slot1Id);  // Foreign key in CharInventory for Slot1.
+                //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
 
             // Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
             modelBuilder.Entity<CharInventory>()
                 .HasOne(c => c.Slot2)  // Each CharInventory has one Slot2 item.
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
-                .HasForeignKey(c => c.Slot2Id)  // Foreign key in CharInventory for Slot2.
-                .OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
+                .HasForeignKey(c => c.Slot2Id);  // Foreign key in CharInventory for Slot2.
+                                                 //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
 
             // Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
             modelBuilder.Entity<CharInventory>()
                 .HasOne(c => c.Slot3)  // Each CharInventory has one Slot3 item.
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
-                .HasForeignKey(c => c.Slot3Id)  // Foreign key in CharInventory for Slot3.
-                .OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+                .HasForeignKey(c => c.Slot3Id);  // Foreign key in CharInventory for Slot3.
+                //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill1)  // Each CharInventory has one Slot1 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill1Id)  // Foreign key in CharInventory for Slot1.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Woodcutting)  // Each CharInventory has one Slot1 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill1Id);  // Foreign key in CharInventory for Slot1.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill2)  // Each CharInventory has one Slot2 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill2Id)  // Foreign key in CharInventory for Slot2.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Mining)  // Each CharInventory has one Slot2 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill2Id);  // Foreign key in CharInventory for Slot2.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill3)  // Each CharInventory has one Slot3 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill3Id)  // Foreign key in CharInventory for Slot3.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Fishing)  // Each CharInventory has one Slot3 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill3Id);  // Foreign key in CharInventory for Slot3.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill4)  // Each CharInventory has one Slot1 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill4Id)  // Foreign key in CharInventory for Slot1.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Cooking)  // Each CharInventory has one Slot1 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill4Id);  // Foreign key in CharInventory for Slot1.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot1 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill5)  // Each CharInventory has one Slot2 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill5Id)  // Foreign key in CharInventory for Slot2.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot2 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Crafting)  // Each CharInventory has one Slot2 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill5Id);  // Foreign key in CharInventory for Slot2.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot2 ItemInstance to prevent cascade delete.
 
-			// Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
-			modelBuilder.Entity<CharSkills>()
-				.HasOne(c => c.Skill6)  // Each CharInventory has one Slot3 item.
-				.WithMany()            // No back-reference from ItemInstance to CharInventory.
-				.HasForeignKey(c => c.Skill6Id)  // Foreign key in CharInventory for Slot3.
-				.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+            // Configure relationships and disable cascade delete for Slot3 in the CharInventory entity.
+            modelBuilder.Entity<CharSkills>()
+                .HasOne(c => c.Smithing)  // Each CharInventory has one Slot3 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Skill6Id);  // Foreign key in CharInventory for Slot3.
+				//.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
 
 			// One-to-Many: Character to CharAchievements
 			modelBuilder.Entity<CharAchievement>()
@@ -165,8 +168,9 @@ namespace NETUA2_Egzaminas.DAL
                 .HasForeignKey(cq => cq.CharId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Call the base method to ensure other configurations are applied.
-            base.OnModelCreating(modelBuilder);
+
+			// Call the base method to ensure other configurations are applied.
+			base.OnModelCreating(modelBuilder);
         }
     }
 }

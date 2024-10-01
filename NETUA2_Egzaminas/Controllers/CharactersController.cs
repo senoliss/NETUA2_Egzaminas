@@ -59,7 +59,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             var character = await _characterService.GetCharacterAsync(id);
 
             if (character == null)
-                return NotFound();
+                return NotFound($"Character with id {id} does not exist!");
 
             return Ok(character);
         }

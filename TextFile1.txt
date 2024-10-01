@@ -24,7 +24,7 @@
     "defense": 10,
     "charisma": 10
   },
-  "skills": [
+  "skills": {
     {
       "skill1Id": 0,
       "skill1": {
@@ -75,7 +75,7 @@
         "xpCap": 320
       }
     }
-  ],
+  },
   "quests": [
     {
       "name": "Save the Princess",

@@ -13,7 +13,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
         Task<IEnumerable<Character>> GetAllCharactersAsync();
         Task<CharInventory> GetCharacterInventoryByIdAsync(int id);
         Task<CharEquipment> GetCharacterEquipmentByIdAsync(int id);
-        Task<IEnumerable<CharSkills>> GetCharacterSkillsByIdAsync(int id);
+        Task<CharSkills> GetCharacterSkillsByIdAsync(int id);
         Task<IEnumerable<CharQuests>> GetCharacterQuestsByIdAsync(int id);
         Task<IEnumerable<CharAchievement>> GetCharacterAchievementsByIdAsync(int id);
         Task<BaseStats> GetCharacterBaseStatsByIdAsync(int id);

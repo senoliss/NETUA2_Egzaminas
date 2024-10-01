@@ -34,16 +34,23 @@ namespace NETUA2_Egzaminas.API.Services
 
         public async Task<Character?> GetCharacterAsync(int id)
         {
-            return await _context.Characters
+			var character = await _context.Characters
                 .Include(c => c.BaseStats)
                 .Include(c => c.Stats)
-                .Include(c => c.Skills)
-                .Include(c => c.Quests)
+	            .Include(c => c.Quests)
                 .Include(c => c.AchievementsList)
                 .Include(c => c.Equipment)
-                .Include(c => c.Inventory)
+                //.Include(c => c.Inventory)
                 .FirstOrDefaultAsync(c => c.CharId == id);
-        }
+
+			if (character != null)
+			{
+				character.Skills = await GetCharacterSkillsByIdAsync(character.CharId);
+                character.Inventory = await GetCharacterInventoryByIdAsync(character.CharId);
+			}
+
+			return character;
+		}
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {
@@ -61,8 +68,8 @@ namespace NETUA2_Egzaminas.API.Services
         public async Task<CharInventory> GetCharacterInventoryByIdAsync(int id)
         {
             var character = await _context.Characters
-                                   .Include(c => c.Inventory)
-                                   .FirstOrDefaultAsync(c => c.CharId == id);
+                                   .Include(c => c.Inventory).ThenInclude(c => c.Slot1).Include(c => c.Inventory).ThenInclude(c => c.Slot2).Include(c => c.Inventory).ThenInclude(c => c.Slot3)
+								   .FirstOrDefaultAsync(c => c.CharId == id);
             if (character == null)
                 return null;
             
@@ -81,10 +88,15 @@ namespace NETUA2_Egzaminas.API.Services
         }
 
 
-        public async Task<IEnumerable<CharSkills>> GetCharacterSkillsByIdAsync(int id)
+        public async Task<CharSkills> GetCharacterSkillsByIdAsync(int id)
         {
             var character = await _context.Characters
-                                   .Include(s => s.Skills)
+								   .Include(c => c.Skills).ThenInclude(s => s.Woodcutting)
+                                   .Include(c => c.Skills).ThenInclude(s => s.Mining)
+                                   .Include(c => c.Skills).ThenInclude(s => s.Fishing)
+                                   .Include(c => c.Skills).ThenInclude(s => s.Cooking)
+                                   .Include(c => c.Skills).ThenInclude(s => s.Crafting)
+                                   .Include(c => c.Skills).ThenInclude(s => s.Smithing)
                                    .FirstOrDefaultAsync(s => s.CharId == id);
             if (character == null)
                 return null;
@@ -134,19 +146,43 @@ namespace NETUA2_Egzaminas.API.Services
 
         public async Task<bool> DeleteCharacterAsync(int id)
         {
-            var character = await _context.Characters.FindAsync(id);
+            var character = await GetCharacterAsync(id); //_context.Characters.FindAsync(id);
 
-            if (character == null)
+
+			if (character == null)
                 return false;
 
-            _context.Characters.Remove(character);
+
+            // Can't graspo how to setup cascade delete on these fucked up relations between tables
+            _context.CharInventory.Remove(character.Inventory);
+            _context.CharSkills.Remove(character.Skills);
+            _context.BaseStats.Remove(character.BaseStats);
+            _context.Stats.Remove(character.Stats);
+            _context.CharEquipment.Remove(character.Equipment);
+
+			#region deleteCharSkills
+			_context.SkillInstances.Remove(character.Skills.Woodcutting);
+            _context.SkillInstances.Remove(character.Skills.Mining);
+            _context.SkillInstances.Remove(character.Skills.Fishing);
+            _context.SkillInstances.Remove(character.Skills.Cooking);
+            _context.SkillInstances.Remove(character.Skills.Crafting);
+            _context.SkillInstances.Remove(character.Skills.Smithing);
+            #endregion
+            #region deleteCharInventory
+
+            _context.ItemInstances.Remove(character.Inventory.Slot1);
+            _context.ItemInstances.Remove(character.Inventory.Slot2);
+            _context.ItemInstances.Remove(character.Inventory.Slot3);
+			#endregion
+
+			_context.Characters.Remove(character);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public async Task<Character?> UpdateCharacterAsync(int id, PostCreateCharacterDTO dto)
         {
-            var existingCharacter = await _context.Characters.FindAsync(id);
+            var existingCharacter = await GetCharacterAsync(id);
 
             if (existingCharacter == null)
                 return null;

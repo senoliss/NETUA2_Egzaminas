@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NETUA2_Egzaminas.DAL.Entities
 {
     public class ItemInstance
     {
         [Key]
-        public int Id { get; set; }
+		[JsonIgnore]
+		public int Id { get; set; }
 
         public string ImgId { get; set; }
         public string Name { get; set; }

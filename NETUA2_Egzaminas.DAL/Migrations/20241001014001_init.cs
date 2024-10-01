@@ -5,7 +5,7 @@
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class updated_skills : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,7 +52,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemInstance",
+                name: "ItemInstances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -71,7 +71,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemInstance", x => x.Id);
+                    table.PrimaryKey("PK_ItemInstances", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,19 +114,18 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SkillInstance",
+                name: "SkillInstances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     Xp = table.Column<double>(type: "float", nullable: false),
                     XpCap = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SkillInstance", x => x.Id);
+                    table.PrimaryKey("PK_SkillInstances", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,23 +194,68 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 {
                     table.PrimaryKey("PK_CharInventory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CharInventory_ItemInstance_Slot1Id",
+                        name: "FK_CharInventory_ItemInstances_Slot1Id",
                         column: x => x.Slot1Id,
-                        principalTable: "ItemInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CharInventory_ItemInstance_Slot2Id",
+                        name: "FK_CharInventory_ItemInstances_Slot2Id",
                         column: x => x.Slot2Id,
-                        principalTable: "ItemInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CharInventory_ItemInstance_Slot3Id",
+                        name: "FK_CharInventory_ItemInstances_Slot3Id",
                         column: x => x.Slot3Id,
-                        principalTable: "ItemInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CharSkills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Skill1Id = table.Column<int>(type: "int", nullable: true),
+                    Skill2Id = table.Column<int>(type: "int", nullable: true),
+                    Skill3Id = table.Column<int>(type: "int", nullable: true),
+                    Skill4Id = table.Column<int>(type: "int", nullable: true),
+                    Skill5Id = table.Column<int>(type: "int", nullable: true),
+                    Skill6Id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharSkills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill1Id",
+                        column: x => x.Skill1Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill2Id",
+                        column: x => x.Skill2Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill3Id",
+                        column: x => x.Skill3Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill4Id",
+                        column: x => x.Skill4Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill5Id",
+                        column: x => x.Skill5Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharSkills_SkillInstances_Skill6Id",
+                        column: x => x.Skill6Id,
+                        principalTable: "SkillInstances",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -229,6 +273,7 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     Money = table.Column<int>(type: "int", nullable: false),
                     BaseStatsId = table.Column<int>(type: "int", nullable: false),
                     StatsId = table.Column<int>(type: "int", nullable: false),
+                    SkillsId = table.Column<int>(type: "int", nullable: false),
                     EquipmentId = table.Column<int>(type: "int", nullable: false),
                     InventoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -251,6 +296,12 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         name: "FK_Characters_CharInventory_InventoryId",
                         column: x => x.InventoryId,
                         principalTable: "CharInventory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Characters_CharSkills_SkillsId",
+                        column: x => x.SkillsId,
+                        principalTable: "CharSkills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -307,66 +358,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         principalTable: "Characters",
                         principalColumn: "CharId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CharSkills",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Skill1Id = table.Column<int>(type: "int", nullable: true),
-                    Skill2Id = table.Column<int>(type: "int", nullable: true),
-                    Skill3Id = table.Column<int>(type: "int", nullable: true),
-                    Skill4Id = table.Column<int>(type: "int", nullable: true),
-                    Skill5Id = table.Column<int>(type: "int", nullable: true),
-                    Skill6Id = table.Column<int>(type: "int", nullable: true),
-                    CharacterCharId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CharSkills", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_Characters_CharacterCharId",
-                        column: x => x.CharacterCharId,
-                        principalTable: "Characters",
-                        principalColumn: "CharId");
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill1Id",
-                        column: x => x.Skill1Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill2Id",
-                        column: x => x.Skill2Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill3Id",
-                        column: x => x.Skill3Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill4Id",
-                        column: x => x.Skill4Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill5Id",
-                        column: x => x.Skill5Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CharSkills_SkillInstance_Skill6Id",
-                        column: x => x.Skill6Id,
-                        principalTable: "SkillInstance",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -434,6 +425,11 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 column: "InventoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Characters_SkillsId",
+                table: "Characters",
+                column: "SkillsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Characters_StatsId",
                 table: "Characters",
                 column: "StatsId");
@@ -457,11 +453,6 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 name: "IX_CharQuests_CharId",
                 table: "CharQuests",
                 column: "CharId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CharSkills_CharacterCharId",
-                table: "CharSkills",
-                column: "CharacterCharId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharSkills_Skill1Id",
@@ -527,16 +518,10 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 name: "CharQuests");
 
             migrationBuilder.DropTable(
-                name: "CharSkills");
-
-            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
                 name: "UsersInfo");
-
-            migrationBuilder.DropTable(
-                name: "SkillInstance");
 
             migrationBuilder.DropTable(
                 name: "Characters");
@@ -560,10 +545,16 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 name: "CharInventory");
 
             migrationBuilder.DropTable(
+                name: "CharSkills");
+
+            migrationBuilder.DropTable(
                 name: "Stats");
 
             migrationBuilder.DropTable(
-                name: "ItemInstance");
+                name: "ItemInstances");
+
+            migrationBuilder.DropTable(
+                name: "SkillInstances");
         }
     }
 }
