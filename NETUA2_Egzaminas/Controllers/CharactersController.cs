@@ -59,7 +59,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             var character = await _characterService.GetCharacterAsync(id);
 
             if (character == null)
-                return NotFound($"Character with id {id} does not exist!");
+                return NotFound($"Nu nera tokio bled");
 
             return Ok(character);
         }
@@ -87,7 +87,7 @@ namespace NETUA2_Egzaminas.API.Controllers
             var inventory = await _characterService.GetCharacterInventoryByIdAsync(id);
             
             if(inventory == null)
-                return NotFound();
+                return NotFound("Either Character or Inventory not found!");
             
             return Ok(inventory);
         }
@@ -103,50 +103,66 @@ namespace NETUA2_Egzaminas.API.Controllers
             var equipment = await _characterService.GetCharacterEquipmentByIdAsync(id);
 
             if (equipment == null)
-                return NotFound();
+                return NotFound("Either Character or Equipment not found!");
 
             return Ok(equipment);
         }
 
+        /// <summary>
+        /// Retrieves any related Character data by Id and Data selection.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dataTypes">
+        /// 0 => Inventory
+        /// 1 => Equipment
+        /// 2 => Skills
+        /// 3 => Quests
+        /// 4 => Achievements
+        /// 5 => BaseStats
+        /// 6 => Stats
+        /// </param>
+        /// <returns></returns>
         [HttpGet("{id}/data")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetCahracterData(int id, [FromQuery] string dataType)
+        public async Task<IActionResult> GetCharacterData(int id, [FromQuery] List<CharacterDataType> dataTypes)
         {
-            object result;
-
-            switch (dataType.ToLower())
+            if (dataTypes == null || !dataTypes.Any())
             {
-                case "inventory":
-                    result = await _characterService.GetCharacterInventoryByIdAsync(id);
-                    break;
-                case "equipment":
-                    result = await _characterService.GetCharacterEquipmentByIdAsync(id);
-                    break;
-                case "skills":
-                    result = await _characterService.GetCharacterSkillsByIdAsync(id);
-                    break;
-                case "quests":
-                    result = await _characterService.GetCharacterQuestsByIdAsync(id);
-                    break;
-                case "achievements":
-                    result = await _characterService.GetCharacterAchievementsByIdAsync(id);
-                    break;
-                case "base stats":
-                    result = await _characterService.GetCharacterBaseStatsByIdAsync(id);
-                    break;
-                case "stats":
-                    result = await _characterService.GetCharacterStatsByIdAsync(id);
-                    break;
-                default:
-                    return BadRequest("Invalid data type specified.");
+                return BadRequest("At least one data type must be specified.");
             }
 
-            if (result  == null) return NotFound("Nera tokio bled");
+            var results = new Dictionary<string, object>();
 
-            return Ok(result);
+            foreach (var dataType in dataTypes)
+            {
+                object result = dataType switch
+                {
+                    CharacterDataType.Inventory => await _characterService.GetCharacterInventoryByIdAsync(id),
+                    CharacterDataType.Equipment => await _characterService.GetCharacterEquipmentByIdAsync(id),
+                    CharacterDataType.Skills => await _characterService.GetCharacterSkillsByIdAsync(id),
+                    CharacterDataType.Quests => await _characterService.GetCharacterQuestsByIdAsync(id),
+                    CharacterDataType.Achievements => await _characterService.GetCharacterAchievementsByIdAsync(id),
+                    CharacterDataType.BaseStats => await _characterService.GetCharacterBaseStatsByIdAsync(id),
+                    CharacterDataType.Stats => await _characterService.GetCharacterStatsByIdAsync(id),
+                    _ => null
+                };
+
+                if (result != null)
+                {
+                    results[dataType.ToString()] = result;
+                }
+            }
+
+            if (!results.Any())
+            {
+                return NotFound("No data found for the specified data types.");
+            }
+
+            return Ok(results);
         }
+
 
         /// <summary>
         /// Updates an existing character.
@@ -186,6 +202,18 @@ namespace NETUA2_Egzaminas.API.Controllers
                 return NotFound();
 
             return NoContent();
+        }
+
+
+        public enum CharacterDataType
+        {
+            Inventory,
+            Equipment,
+            Skills,
+            Quests,
+            Achievements,
+            BaseStats,
+            Stats
         }
     }
 }

@@ -169,7 +169,6 @@ namespace NETUA2_Egzaminas.API.Services
             _context.SkillInstances.Remove(character.Skills.Smithing);
             #endregion
             #region deleteCharInventory
-
             _context.ItemInstances.Remove(character.Inventory.Slot1);
             _context.ItemInstances.Remove(character.Inventory.Slot2);
             _context.ItemInstances.Remove(character.Inventory.Slot3);
