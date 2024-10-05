@@ -15,8 +15,9 @@ namespace NETUA2_Egzaminas.API.Services
         private readonly IItemManagerRepository _itemManagerRepository;
         private readonly ILogger _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly IItemMapper _mapper;
 
-        public ItemService(AppDbContext context,
+		public ItemService(AppDbContext context,
             ILogger<ItemService> logger,
             IHttpContextAccessor httpContextAccessor,
             IItemManagerRepository itemDbService)
@@ -28,24 +29,15 @@ namespace NETUA2_Egzaminas.API.Services
         }
 
         //=========================User methods=========================================
-        public void AddItem(string imgId, string name, string type, string description, int value)
+        public void AddItem(Item item)
         {
-            var found = _context.Items.Any(i => i.Name == name);
-            if (found)
-            {
-                _logger.LogError("Item already exists");
-                throw new System.Exception("Item already exists");
-                //return null;
-            }
-
-            var item = new Item
-            {
-                ImgId = imgId,
-                Name = name,
-                Type = type,
-                Description = description,
-                Value = value
-            };
+            //var found = _context.Items.Any(i => i.Name == item.Name);
+            //if (found)
+            //{
+            //    _logger.LogError("Item already exists");
+            //    throw new System.Exception("Item already exists");
+            //    //return null;
+            //}
 
             _itemManagerRepository.AddItem(item);
 
@@ -58,6 +50,10 @@ namespace NETUA2_Egzaminas.API.Services
         {
             return _itemManagerRepository.GetItemById(id);
         }
+        public bool GetItemByName(string name)
+        {
+            return _context.Items.Any(i => i.Name == name);
+		}
         public List<Item> GetAll()
         {
             var items = _itemManagerRepository.GetAll();

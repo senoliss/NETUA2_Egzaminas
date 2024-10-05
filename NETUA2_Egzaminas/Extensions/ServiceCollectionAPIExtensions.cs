@@ -21,6 +21,7 @@ namespace NETUA2_Egzaminas.API.Extensions
             services.AddTransient<IItemService, ItemService>();
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddTransient<ICharacterMapper, CharacterMapper>();
+            services.AddTransient<IItemMapper, ItemMapper>();
         }
     }
 }

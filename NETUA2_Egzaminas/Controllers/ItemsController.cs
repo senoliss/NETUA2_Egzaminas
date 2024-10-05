@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using NETUA2_Egzaminas.API.DTOs;
 using NETUA2_Egzaminas.API.Interfaces;
 using NETUA2_Egzaminas.DAL.Entities;
@@ -12,13 +14,15 @@ namespace NETUA2_Egzaminas.API.Controllers
         private readonly IItemService _itemService;
         private readonly IJwtService _jwtService;
         private readonly ILogger<ItemsController> _logger;
+        private readonly IItemMapper _mapper;
         private string loggingMessage;
 
-        public ItemsController(IItemService itemService, IJwtService jwtService, ILogger<ItemsController> logger)
+        public ItemsController(IItemService itemService, IJwtService jwtService, ILogger<ItemsController> logger, IItemMapper mapper)
         {
             _itemService = itemService;
             _jwtService = jwtService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost("AddItem")]
@@ -29,15 +33,53 @@ namespace NETUA2_Egzaminas.API.Controllers
             loggingMessage = $"Trying to Add item - {dto.Name}";
             _logger.LogInformation(loggingMessage);
 
-            _itemService.AddItem(dto.ImgId, dto.Name, dto.Type, dto.Description, dto.Value);
+            bool found = _itemService.GetItemByName(dto.Name);
 
-            loggingMessage = $"Successfully Added item: {dto.Name}";
+            if (found)
+            {
+                _logger.LogError("Item already exists");
+				return Ok("Item already exists!");
+                //return null;
+            }
+
+            var item = _mapper.ItemMapping(dto);
+
+            _itemService.AddItem(item);
+
+            loggingMessage = $"Successfully Added item: {item.Name}";
             _logger.LogInformation(loggingMessage);
 
-            return Ok();
+            return Ok(item);
         }
-        
-        [HttpGet("GetItemByID")]
+
+		[HttpPost("AddItemList")]
+		public async Task<IActionResult> AddItemList(PostItemListDTO dtoske)
+		{
+			if (dtoske == null || dtoske.Items == null || dtoske.Items.Count == 0)
+			{
+				return BadRequest("No items provided in the list.");
+			}
+
+			try
+			{
+				foreach (var dto in dtoske.Items)
+				{
+                       var item = _mapper.ItemMapping(dto);
+
+				    _itemService.AddItem(item);
+				}
+
+				return Ok("Items added successfully.");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Error adding items: {0}", ex.Message);
+				return BadRequest("Error adding items.");
+			}
+			
+		}
+
+		[HttpGet("GetItemByID")]
         public IActionResult GetItemById(int id)
         {
             loggingMessage = "";

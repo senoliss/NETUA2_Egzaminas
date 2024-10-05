@@ -41,3 +41,17 @@ Here our ore id from items id does not really matter when it is in inventory, ma
 
 Conclusion: We take item object on some skilling event once and put it into inventory as separate object with no further relations to items table. When the same action repeats we take the object again from items inventory, check if we have it in inventory, if we do check if it is stackable > if true increase the count > if not check if we have space in inventory (if any of the slots are null) if yes then add to first null slot > if no space is available throw an message and discard the item.
 ================================================== CharInventory ===============================================================
+
+
+
+
+
+ItemDb:
+
+Find: ("stats": {)\r\n(.*?)(})
+
+Replace: "value": 15,\r			"stackable": false,\r			"count": 1,\r			"level": 1,\r			"defense": 0,\r			"attack": 0,\r			"durability": 1
+
+----
+Find: ("id": )(.*?)(,)\r\n\t\t\t
+Replace:
