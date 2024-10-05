@@ -3519,7 +3519,7 @@
 			"name": "Advanced Fishing Rod",
 			"type": "crafting_tool",
 			"description": "Advanced fishing rod to catch more bigger fish.",
-			"value": 15,			"stackable": false,			"count": 1,			"level": 1,			"defense": 0,			"attack": 0,			"durability": 1
+			"value": 15,			"stackable": false,			"count": 1,			"level": 1,			"defense": 0,			"attack": 0,			"durability": 2
 		}
 	]
 }
