@@ -101,10 +101,40 @@ namespace NETUA2_Egzaminas.API.Controllers
             // maybe map an account here
             List<Item> items = _itemService.GetAll();
 
-            loggingMessage = "Successfully fetched items";
+            if (items == null || items.Count == 0)
+			{
+				loggingMessage = "No items in database!";
+				_logger.LogInformation(loggingMessage);
+				return Ok(loggingMessage);
+            }
+
+			loggingMessage = "Successfully fetched items";
             _logger.LogInformation(loggingMessage);
 
             return Ok(items);
         }
+
+        [HttpGet("GetAllItemsCount")]
+        public IActionResult GetAllItemsCount()
+        {
+			loggingMessage = "";
+
+			loggingMessage = "Trying to Get All items count";
+			_logger.LogInformation(loggingMessage);
+
+            int itemCount = _itemService.GetItemsCount();
+
+            if (itemCount == null || itemCount == 0)
+			{
+				loggingMessage = "No items in database!";
+				_logger.LogInformation(loggingMessage);
+				return Ok(loggingMessage);
+			}
+
+			loggingMessage = $"Successfully fetched items Count! - {itemCount}";
+			_logger.LogInformation(loggingMessage);
+
+			return Ok(itemCount);
+		}
     }
 }

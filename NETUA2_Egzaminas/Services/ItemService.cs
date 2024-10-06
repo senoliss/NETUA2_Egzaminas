@@ -59,5 +59,10 @@ namespace NETUA2_Egzaminas.API.Services
             var items = _itemManagerRepository.GetAll();
             return items;
         }
+        public int GetItemsCount()
+        {
+            int itemcount = _itemManagerRepository.GetItemCount();
+            return itemcount;
+        }
     }
 }

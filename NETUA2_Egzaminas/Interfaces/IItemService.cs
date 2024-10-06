@@ -10,5 +10,6 @@ namespace NETUA2_Egzaminas.API.Interfaces
         void AddItem(Item item);
         List<Item> GetAll();
 		bool GetItemByName(string name);
+        int GetItemsCount();
 	}
 }

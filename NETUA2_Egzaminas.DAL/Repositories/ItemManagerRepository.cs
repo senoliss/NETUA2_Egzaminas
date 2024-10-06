@@ -37,5 +37,14 @@ namespace NETUA2_Egzaminas.DAL.Repositories
         {
 
         }
+
+		public void RemoveItemById(int id)
+		{
+
+		}
+		public int GetItemCount()
+        {
+            return _context.Items.Count();
+        }
     }
 }
