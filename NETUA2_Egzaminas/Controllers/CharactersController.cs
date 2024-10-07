@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
 using NETUA2_Egzaminas.API.DTOs;
 using NETUA2_Egzaminas.API.Interfaces;
 using NETUA2_Egzaminas.API.Mappers;
@@ -204,8 +205,19 @@ namespace NETUA2_Egzaminas.API.Controllers
             return NoContent();
         }
 
+        [HttpOptions("test")]
+        public async void TestMethodForOptions()
+        {
 
-        public enum CharacterDataType
+        }
+
+		[HttpLogging]
+		public async void TestMethodForLogging()
+		{
+
+		}
+
+		public enum CharacterDataType
         {
             Inventory,
             Equipment,
