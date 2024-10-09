@@ -51,6 +51,25 @@ namespace NETUA2_Egzaminas.API.Services
 
 			return character;
 		}
+        public async Task<Character?> GetCharacterByEmailAsync(string mail)
+        {
+			var character = await _context.Characters
+                .Include(c => c.BaseStats)
+                .Include(c => c.Stats)
+	            .Include(c => c.Quests)
+                .Include(c => c.AchievementsList)
+                .Include(c => c.Equipment)
+                //.Include(c => c.Inventory)
+                .FirstOrDefaultAsync(c => c.Email == mail);
+
+			if (character != null)
+			{
+				character.Skills = await GetCharacterSkillsByIdAsync(character.CharId);
+                character.Inventory = await GetCharacterInventoryByIdAsync(character.CharId);
+			}
+
+			return character;
+		}
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {
@@ -67,9 +86,67 @@ namespace NETUA2_Egzaminas.API.Services
 
         public async Task<CharInventory> GetCharacterInventoryByIdAsync(int id)
         {
+            #region Gets Character all 28 slots included
             var character = await _context.Characters
-                                   .Include(c => c.Inventory).ThenInclude(c => c.Slot1).Include(c => c.Inventory).ThenInclude(c => c.Slot2).Include(c => c.Inventory).ThenInclude(c => c.Slot3)
-								   .FirstOrDefaultAsync(c => c.CharId == id);
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot1)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot2)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot3)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot4)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot5)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot6)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot7)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot8)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot9)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot10)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot11)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot12)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot13)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot14)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot15)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot16)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot17)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot18)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot19)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot20)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot21)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot22)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot23)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot24)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot25)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot26)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot27)
+                            .Include(c => c.Inventory)
+                            .ThenInclude(c => c.Slot28)
+                            .FirstOrDefaultAsync(c => c.CharId == id);
+            #endregion
+
             if (character == null)
                 return null;
             
@@ -168,13 +245,39 @@ namespace NETUA2_Egzaminas.API.Services
             _context.SkillInstances.Remove(character.Skills.Crafting);
             _context.SkillInstances.Remove(character.Skills.Smithing);
             #endregion
+
             #region deleteCharInventory
             _context.ItemInstances.Remove(character.Inventory.Slot1);
             _context.ItemInstances.Remove(character.Inventory.Slot2);
             _context.ItemInstances.Remove(character.Inventory.Slot3);
-			#endregion
+            _context.ItemInstances.Remove(character.Inventory.Slot4);
+            _context.ItemInstances.Remove(character.Inventory.Slot5);
+            _context.ItemInstances.Remove(character.Inventory.Slot6);
+            _context.ItemInstances.Remove(character.Inventory.Slot7);
+            _context.ItemInstances.Remove(character.Inventory.Slot8);
+            _context.ItemInstances.Remove(character.Inventory.Slot9);
+            _context.ItemInstances.Remove(character.Inventory.Slot10);
+            _context.ItemInstances.Remove(character.Inventory.Slot11);
+            _context.ItemInstances.Remove(character.Inventory.Slot12);
+            _context.ItemInstances.Remove(character.Inventory.Slot13);
+            _context.ItemInstances.Remove(character.Inventory.Slot14);
+            _context.ItemInstances.Remove(character.Inventory.Slot15);
+            _context.ItemInstances.Remove(character.Inventory.Slot16);
+            _context.ItemInstances.Remove(character.Inventory.Slot17);
+            _context.ItemInstances.Remove(character.Inventory.Slot18);
+            _context.ItemInstances.Remove(character.Inventory.Slot19);
+            _context.ItemInstances.Remove(character.Inventory.Slot20);
+            _context.ItemInstances.Remove(character.Inventory.Slot21);
+            _context.ItemInstances.Remove(character.Inventory.Slot22);
+            _context.ItemInstances.Remove(character.Inventory.Slot23);
+            _context.ItemInstances.Remove(character.Inventory.Slot24);
+            _context.ItemInstances.Remove(character.Inventory.Slot25);
+            _context.ItemInstances.Remove(character.Inventory.Slot26);
+            _context.ItemInstances.Remove(character.Inventory.Slot27);
+            _context.ItemInstances.Remove(character.Inventory.Slot28);
+            #endregion
 
-			_context.Characters.Remove(character);
+            _context.Characters.Remove(character);
             await _context.SaveChangesAsync();
             return true;
         }

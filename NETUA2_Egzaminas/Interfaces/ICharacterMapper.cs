@@ -26,6 +26,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
         /// <param name="existingItem"></param>
         /// <returns></returns>
         public ItemInstance UpdateIndividualInventorySlot(ItemInstance dtoItem, ItemInstance existingItem);
+        public void ClearItemInstance(ItemInstance item);
 
     }
 }

@@ -91,7 +91,7 @@ namespace NETUA2_Egzaminas.DAL
         /// <param name="modelBuilder">An object used to configure entity relationships and behaviors.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            #region inventory
             // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
             modelBuilder.Entity<CharInventory>()
                 .HasOne(c => c.Slot1)  // Each CharInventory has one Slot1 item.
@@ -111,8 +111,135 @@ namespace NETUA2_Egzaminas.DAL
                 .HasOne(c => c.Slot3)  // Each CharInventory has one Slot3 item.
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
                 .HasForeignKey(c => c.Slot3Id);  // Foreign key in CharInventory for Slot3.
-                //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+                                                 //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
 
+            // Configure relationships and disable cascade delete for Slot4 to Slot28 in the CharInventory entity.
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot4)  // Each CharInventory has one Slot4 item.
+                .WithMany()            // No back-reference from ItemInstance to CharInventory.
+                .HasForeignKey(c => c.Slot4Id);  // Foreign key in CharInventory for Slot4.
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot5)
+                .WithMany()
+                .HasForeignKey(c => c.Slot5Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot6)
+                .WithMany()
+                .HasForeignKey(c => c.Slot6Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot7)
+                .WithMany()
+                .HasForeignKey(c => c.Slot7Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot8)
+                .WithMany()
+                .HasForeignKey(c => c.Slot8Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot9)
+                .WithMany()
+                .HasForeignKey(c => c.Slot9Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot10)
+                .WithMany()
+                .HasForeignKey(c => c.Slot10Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot11)
+                .WithMany()
+                .HasForeignKey(c => c.Slot11Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot12)
+                .WithMany()
+                .HasForeignKey(c => c.Slot12Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot13)
+                .WithMany()
+                .HasForeignKey(c => c.Slot13Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot14)
+                .WithMany()
+                .HasForeignKey(c => c.Slot14Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot15)
+                .WithMany()
+                .HasForeignKey(c => c.Slot15Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot16)
+                .WithMany()
+                .HasForeignKey(c => c.Slot16Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot17)
+                .WithMany()
+                .HasForeignKey(c => c.Slot17Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot18)
+                .WithMany()
+                .HasForeignKey(c => c.Slot18Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot19)
+                .WithMany()
+                .HasForeignKey(c => c.Slot19Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot20)
+                .WithMany()
+                .HasForeignKey(c => c.Slot20Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot21)
+                .WithMany()
+                .HasForeignKey(c => c.Slot21Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot22)
+                .WithMany()
+                .HasForeignKey(c => c.Slot22Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot23)
+                .WithMany()
+                .HasForeignKey(c => c.Slot23Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot24)
+                .WithMany()
+                .HasForeignKey(c => c.Slot24Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot25)
+                .WithMany()
+                .HasForeignKey(c => c.Slot25Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot26)
+                .WithMany()
+                .HasForeignKey(c => c.Slot26Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot27)
+                .WithMany()
+                .HasForeignKey(c => c.Slot27Id);
+
+            modelBuilder.Entity<CharInventory>()
+                .HasOne(c => c.Slot28)
+                .WithMany()
+                .HasForeignKey(c => c.Slot28Id);
+
+            #endregion
             // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
             modelBuilder.Entity<CharSkills>()
                 .HasOne(c => c.Woodcutting)  // Each CharInventory has one Slot1 item.
