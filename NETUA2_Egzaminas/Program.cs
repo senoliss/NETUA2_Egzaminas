@@ -58,8 +58,8 @@ namespace NETUA2_Egzaminas
                 opt.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "NETUA2 Final Exam - Users",
-                    Description = "NETUA2 Final Examp WEB ASP.NET Core API for User Registration and User Information creation",
+                    Title = "ASP.NET API - Templarity",
+                    Description = "WEB ASP.NET Core API backend for browser game called \"Templarity\" which frontend is built with React.JS. ",
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
