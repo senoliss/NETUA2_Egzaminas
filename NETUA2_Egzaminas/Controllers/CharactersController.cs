@@ -229,11 +229,11 @@ namespace NETUA2_Egzaminas.API.Controllers
 
         }
 
-		[HttpLogging]
-		public async void TestMethodForLogging()
-		{
+		//[HttpLogging]
+		//public async void TestMethodForLogging()
+		//{
 
-		}
+		//}
 
 		public enum CharacterDataType
         {
