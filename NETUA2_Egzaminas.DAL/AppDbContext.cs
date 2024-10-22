@@ -240,6 +240,61 @@ namespace NETUA2_Egzaminas.DAL
                 .HasForeignKey(c => c.Slot28Id);
 
             #endregion
+
+            #region equipment
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Helmet)
+                .WithMany()
+                .HasForeignKey(c => c.HelmetId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Armor)
+                .WithMany()
+                .HasForeignKey(c => c.ArmorId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Weapon)
+                .WithMany()
+                .HasForeignKey(c => c.WeaponId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Shield)
+                .WithMany()
+                .HasForeignKey(c => c.ShieldId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Legs)
+                .WithMany()
+                .HasForeignKey(c => c.LegsId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Gloves)
+                .WithMany()
+                .HasForeignKey(c => c.GlovesId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Boots)
+                .WithMany()
+                .HasForeignKey(c => c.BootsId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.Amulet)
+                .WithMany()
+                .HasForeignKey(c => c.AmuletId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.RingLeft)
+                .WithMany()
+                .HasForeignKey(c => c.RingLeftId);
+
+            modelBuilder.Entity<CharEquipment>()
+                .HasOne(c => c.RingRight)
+                .WithMany()
+                .HasForeignKey(c => c.RingRightId);
+            #endregion
+
+            #region skills
             // Configure relationships and disable cascade delete for Slot1 in the CharInventory entity.
             modelBuilder.Entity<CharSkills>()
                 .HasOne(c => c.Woodcutting)  // Each CharInventory has one Slot1 item.
@@ -280,10 +335,11 @@ namespace NETUA2_Egzaminas.DAL
                 .HasOne(c => c.Smithing)  // Each CharInventory has one Slot3 item.
                 .WithMany()            // No back-reference from ItemInstance to CharInventory.
                 .HasForeignKey(c => c.Skill6Id);  // Foreign key in CharInventory for Slot3.
-				//.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+                                                  //.OnDelete(DeleteBehavior.Restrict);  // Restrict deletion of Slot3 ItemInstance to prevent cascade delete.
+            #endregion
 
-			// One-to-Many: Character to CharAchievements
-			modelBuilder.Entity<CharAchievement>()
+            // One-to-Many: Character to CharAchievements
+            modelBuilder.Entity<CharAchievement>()
                 .HasOne(ca => ca.Character)  // Each CharAchievement has one Character
                 .WithMany(c => c.AchievementsList)  // Each Character has many CharAchievements
                 .HasForeignKey(ca => ca.CharId)  // CharId is the FK in CharAchievement
