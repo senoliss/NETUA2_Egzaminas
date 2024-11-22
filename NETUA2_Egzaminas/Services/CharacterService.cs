@@ -70,6 +70,26 @@ namespace NETUA2_Egzaminas.API.Services
 
 			return character;
 		}
+        
+        public async Task<Character?> GetCharacterByUsernameAsync(string username)
+        {
+			var character = await _context.Characters
+                .Include(c => c.BaseStats)
+                .Include(c => c.Stats)
+	            .Include(c => c.Quests)
+                .Include(c => c.AchievementsList)
+                .Include(c => c.Equipment)
+                //.Include(c => c.Inventory)
+                .FirstOrDefaultAsync(c => c.Name == username);
+
+			if (character != null)
+			{
+				character.Skills = await GetCharacterSkillsByIdAsync(character.CharId);
+                character.Inventory = await GetCharacterInventoryByIdAsync(character.CharId);
+			}
+
+			return character;
+		}
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync()
         {

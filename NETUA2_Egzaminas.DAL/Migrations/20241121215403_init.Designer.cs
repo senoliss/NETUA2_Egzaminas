@@ -12,8 +12,8 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241009123301_extended_inv_to_28_slots")]
-    partial class extended_inv_to_28_slots
+    [Migration("20241121215403_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,37 +105,57 @@ namespace NETUA2_Egzaminas.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Amulet")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AmuletId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Armor")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ArmorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Boots")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BootsId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Gloves")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("GlovesId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Helmet")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("HelmetId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Legs")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("LegsId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RingLeft")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("RingLeftId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RingRight")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("RingRightId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Shield")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ShieldId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Weapon")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("WeaponId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AmuletId");
+
+                    b.HasIndex("ArmorId");
+
+                    b.HasIndex("BootsId");
+
+                    b.HasIndex("GlovesId");
+
+                    b.HasIndex("HelmetId");
+
+                    b.HasIndex("LegsId");
+
+                    b.HasIndex("RingLeftId");
+
+                    b.HasIndex("RingRightId");
+
+                    b.HasIndex("ShieldId");
+
+                    b.HasIndex("WeaponId");
 
                     b.ToTable("CharEquipment");
                 });
@@ -504,31 +524,27 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Durability")
                         .HasColumnType("int");
 
                     b.Property<string>("ImgId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Level")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Stackable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Value")
+                    b.Property<int?>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -750,6 +766,69 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharEquipment", b =>
+                {
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Amulet")
+                        .WithMany()
+                        .HasForeignKey("AmuletId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Armor")
+                        .WithMany()
+                        .HasForeignKey("ArmorId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Boots")
+                        .WithMany()
+                        .HasForeignKey("BootsId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Gloves")
+                        .WithMany()
+                        .HasForeignKey("GlovesId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Helmet")
+                        .WithMany()
+                        .HasForeignKey("HelmetId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Legs")
+                        .WithMany()
+                        .HasForeignKey("LegsId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "RingLeft")
+                        .WithMany()
+                        .HasForeignKey("RingLeftId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "RingRight")
+                        .WithMany()
+                        .HasForeignKey("RingRightId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Shield")
+                        .WithMany()
+                        .HasForeignKey("ShieldId");
+
+                    b.HasOne("NETUA2_Egzaminas.DAL.Entities.ItemInstance", "Weapon")
+                        .WithMany()
+                        .HasForeignKey("WeaponId");
+
+                    b.Navigation("Amulet");
+
+                    b.Navigation("Armor");
+
+                    b.Navigation("Boots");
+
+                    b.Navigation("Gloves");
+
+                    b.Navigation("Helmet");
+
+                    b.Navigation("Legs");
+
+                    b.Navigation("RingLeft");
+
+                    b.Navigation("RingRight");
+
+                    b.Navigation("Shield");
+
+                    b.Navigation("Weapon");
                 });
 
             modelBuilder.Entity("NETUA2_Egzaminas.DAL.Entities.CharInventory", b =>

@@ -11,6 +11,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
         Task<Character> CreateCharacterAsync(PostCreateCharacterDTO dto);
         Task<Character?> GetCharacterAsync(int id);
         Task<Character?> GetCharacterByEmailAsync(string mail);
+        Task<Character?> GetCharacterByUsernameAsync(string username);
         Task<IEnumerable<Character>> GetAllCharactersAsync();
         Task<CharInventory> GetCharacterInventoryByIdAsync(int id);
         Task<CharEquipment> GetCharacterEquipmentByIdAsync(int id);

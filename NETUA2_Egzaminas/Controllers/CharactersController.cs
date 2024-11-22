@@ -66,7 +66,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         }
 
         /// <summary>
-        /// Retrieves a a full character entity with relations by ID.
+        /// Retrieves a full character entity with relations by EMAIL.
         /// </summary>
         /// <param name="id">The ID of the character.</param>
         /// <returns>The character object.</returns>
@@ -76,6 +76,25 @@ namespace NETUA2_Egzaminas.API.Controllers
         public async Task<IActionResult> GetCharacterByMail(string email)
         {
             var character = await _characterService.GetCharacterByEmailAsync(email);
+
+            if (character == null)
+                return NotFound($"Nu nera tokio bled");
+
+            return Ok(character);
+        }
+
+        /// <summary>
+        /// Retrieves a full character entity with relations by USERNAME.
+        /// </summary>
+        /// <param name="id">The ID of the character.</param>
+        /// <returns>The character object.</returns>
+        [Obsolete]
+        [HttpGet("username/{username}")]
+        [ProducesResponseType(typeof(Character), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCharacterByUsername(string username)
+        {
+            var character = await _characterService.GetCharacterByUsernameAsync(username);
 
             if (character == null)
                 return NotFound($"Nu nera tokio bled");

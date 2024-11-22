@@ -30,38 +30,16 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CharEquipment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Helmet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Armor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Weapon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Shield = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Legs = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gloves = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Boots = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amulet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RingLeft = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RingRight = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CharEquipment", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ItemInstances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImgId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<int>(type: "int", nullable: false),
+                    ImgId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<int>(type: "int", nullable: true),
                     Stackable = table.Column<bool>(type: "bit", nullable: true),
                     Count = table.Column<int>(type: "int", nullable: true),
                     Level = table.Column<int>(type: "int", nullable: true),
@@ -181,6 +159,78 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CharEquipment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HelmetId = table.Column<int>(type: "int", nullable: true),
+                    ArmorId = table.Column<int>(type: "int", nullable: true),
+                    WeaponId = table.Column<int>(type: "int", nullable: true),
+                    ShieldId = table.Column<int>(type: "int", nullable: true),
+                    LegsId = table.Column<int>(type: "int", nullable: true),
+                    GlovesId = table.Column<int>(type: "int", nullable: true),
+                    BootsId = table.Column<int>(type: "int", nullable: true),
+                    AmuletId = table.Column<int>(type: "int", nullable: true),
+                    RingLeftId = table.Column<int>(type: "int", nullable: true),
+                    RingRightId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharEquipment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_AmuletId",
+                        column: x => x.AmuletId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_ArmorId",
+                        column: x => x.ArmorId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_BootsId",
+                        column: x => x.BootsId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_GlovesId",
+                        column: x => x.GlovesId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_HelmetId",
+                        column: x => x.HelmetId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_LegsId",
+                        column: x => x.LegsId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_RingLeftId",
+                        column: x => x.RingLeftId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_RingRightId",
+                        column: x => x.RingRightId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_ShieldId",
+                        column: x => x.ShieldId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharEquipment_ItemInstances_WeaponId",
+                        column: x => x.WeaponId,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CharInventory",
                 columns: table => new
                 {
@@ -188,14 +238,134 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Slot1Id = table.Column<int>(type: "int", nullable: true),
                     Slot2Id = table.Column<int>(type: "int", nullable: true),
-                    Slot3Id = table.Column<int>(type: "int", nullable: true)
+                    Slot3Id = table.Column<int>(type: "int", nullable: true),
+                    Slot4Id = table.Column<int>(type: "int", nullable: true),
+                    Slot5Id = table.Column<int>(type: "int", nullable: true),
+                    Slot6Id = table.Column<int>(type: "int", nullable: true),
+                    Slot7Id = table.Column<int>(type: "int", nullable: true),
+                    Slot8Id = table.Column<int>(type: "int", nullable: true),
+                    Slot9Id = table.Column<int>(type: "int", nullable: true),
+                    Slot10Id = table.Column<int>(type: "int", nullable: true),
+                    Slot11Id = table.Column<int>(type: "int", nullable: true),
+                    Slot12Id = table.Column<int>(type: "int", nullable: true),
+                    Slot13Id = table.Column<int>(type: "int", nullable: true),
+                    Slot14Id = table.Column<int>(type: "int", nullable: true),
+                    Slot15Id = table.Column<int>(type: "int", nullable: true),
+                    Slot16Id = table.Column<int>(type: "int", nullable: true),
+                    Slot17Id = table.Column<int>(type: "int", nullable: true),
+                    Slot18Id = table.Column<int>(type: "int", nullable: true),
+                    Slot19Id = table.Column<int>(type: "int", nullable: true),
+                    Slot20Id = table.Column<int>(type: "int", nullable: true),
+                    Slot21Id = table.Column<int>(type: "int", nullable: true),
+                    Slot22Id = table.Column<int>(type: "int", nullable: true),
+                    Slot23Id = table.Column<int>(type: "int", nullable: true),
+                    Slot24Id = table.Column<int>(type: "int", nullable: true),
+                    Slot25Id = table.Column<int>(type: "int", nullable: true),
+                    Slot26Id = table.Column<int>(type: "int", nullable: true),
+                    Slot27Id = table.Column<int>(type: "int", nullable: true),
+                    Slot28Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CharInventory", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot10Id",
+                        column: x => x.Slot10Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot11Id",
+                        column: x => x.Slot11Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot12Id",
+                        column: x => x.Slot12Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot13Id",
+                        column: x => x.Slot13Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot14Id",
+                        column: x => x.Slot14Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot15Id",
+                        column: x => x.Slot15Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot16Id",
+                        column: x => x.Slot16Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot17Id",
+                        column: x => x.Slot17Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot18Id",
+                        column: x => x.Slot18Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot19Id",
+                        column: x => x.Slot19Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_CharInventory_ItemInstances_Slot1Id",
                         column: x => x.Slot1Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot20Id",
+                        column: x => x.Slot20Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot21Id",
+                        column: x => x.Slot21Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot22Id",
+                        column: x => x.Slot22Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot23Id",
+                        column: x => x.Slot23Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot24Id",
+                        column: x => x.Slot24Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot25Id",
+                        column: x => x.Slot25Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot26Id",
+                        column: x => x.Slot26Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot27Id",
+                        column: x => x.Slot27Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot28Id",
+                        column: x => x.Slot28Id,
                         principalTable: "ItemInstances",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -206,6 +376,36 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_CharInventory_ItemInstances_Slot3Id",
                         column: x => x.Slot3Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot4Id",
+                        column: x => x.Slot4Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot5Id",
+                        column: x => x.Slot5Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot6Id",
+                        column: x => x.Slot6Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot7Id",
+                        column: x => x.Slot7Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot8Id",
+                        column: x => x.Slot8Id,
+                        principalTable: "ItemInstances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CharInventory_ItemInstances_Slot9Id",
+                        column: x => x.Slot9Id,
                         principalTable: "ItemInstances",
                         principalColumn: "Id");
                 });
@@ -435,9 +635,154 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 column: "StatsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_AmuletId",
+                table: "CharEquipment",
+                column: "AmuletId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_ArmorId",
+                table: "CharEquipment",
+                column: "ArmorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_BootsId",
+                table: "CharEquipment",
+                column: "BootsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_GlovesId",
+                table: "CharEquipment",
+                column: "GlovesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_HelmetId",
+                table: "CharEquipment",
+                column: "HelmetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_LegsId",
+                table: "CharEquipment",
+                column: "LegsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_RingLeftId",
+                table: "CharEquipment",
+                column: "RingLeftId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_RingRightId",
+                table: "CharEquipment",
+                column: "RingRightId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_ShieldId",
+                table: "CharEquipment",
+                column: "ShieldId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharEquipment_WeaponId",
+                table: "CharEquipment",
+                column: "WeaponId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot10Id",
+                table: "CharInventory",
+                column: "Slot10Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot11Id",
+                table: "CharInventory",
+                column: "Slot11Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot12Id",
+                table: "CharInventory",
+                column: "Slot12Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot13Id",
+                table: "CharInventory",
+                column: "Slot13Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot14Id",
+                table: "CharInventory",
+                column: "Slot14Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot15Id",
+                table: "CharInventory",
+                column: "Slot15Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot16Id",
+                table: "CharInventory",
+                column: "Slot16Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot17Id",
+                table: "CharInventory",
+                column: "Slot17Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot18Id",
+                table: "CharInventory",
+                column: "Slot18Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot19Id",
+                table: "CharInventory",
+                column: "Slot19Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CharInventory_Slot1Id",
                 table: "CharInventory",
                 column: "Slot1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot20Id",
+                table: "CharInventory",
+                column: "Slot20Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot21Id",
+                table: "CharInventory",
+                column: "Slot21Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot22Id",
+                table: "CharInventory",
+                column: "Slot22Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot23Id",
+                table: "CharInventory",
+                column: "Slot23Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot24Id",
+                table: "CharInventory",
+                column: "Slot24Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot25Id",
+                table: "CharInventory",
+                column: "Slot25Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot26Id",
+                table: "CharInventory",
+                column: "Slot26Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot27Id",
+                table: "CharInventory",
+                column: "Slot27Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot28Id",
+                table: "CharInventory",
+                column: "Slot28Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharInventory_Slot2Id",
@@ -448,6 +793,36 @@ namespace NETUA2_Egzaminas.DAL.Migrations
                 name: "IX_CharInventory_Slot3Id",
                 table: "CharInventory",
                 column: "Slot3Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot4Id",
+                table: "CharInventory",
+                column: "Slot4Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot5Id",
+                table: "CharInventory",
+                column: "Slot5Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot6Id",
+                table: "CharInventory",
+                column: "Slot6Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot7Id",
+                table: "CharInventory",
+                column: "Slot7Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot8Id",
+                table: "CharInventory",
+                column: "Slot8Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharInventory_Slot9Id",
+                table: "CharInventory",
+                column: "Slot9Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharQuests_CharId",
