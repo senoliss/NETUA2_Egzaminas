@@ -88,7 +88,7 @@ namespace NETUA2_Egzaminas.API.Controllers
         /// </summary>
         /// <param name="id">The ID of the character.</param>
         /// <returns>The character object.</returns>
-        [Obsolete]
+        //[Obsolete]
         [HttpGet("username/{username}")]
         [ProducesResponseType(typeof(Character), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -70,6 +70,18 @@ namespace NETUA2_Egzaminas.API.Services
             return int.Parse(userId);
         }
 
+        public string GetCurrentUserUserName()
+        {
+            var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            return userName;
+        }
+
+        public string GetUserEmail(string username)
+        {
+            var userEmail = _userManagerService.GetUserEmail(username);
+            return userEmail;
+        }
+
         public User GetUserById(int id)
         {
             var userId = _userManagerService.GetUserById(id);

@@ -12,7 +12,7 @@ using NETUA2_Egzaminas.DAL;
 namespace NETUA2_Egzaminas.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241121215403_init")]
+    [Migration("20241129211928_init")]
     partial class init
     {
         /// <inheritdoc />

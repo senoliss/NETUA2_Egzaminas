@@ -20,6 +20,11 @@ namespace NETUA2_Egzaminas.DAL.Repositories
 		{
 			return _context.Users.SingleOrDefault(u => u.UserName == username);
 		}
+		
+		public string GetUserEmail(string username)
+		{
+			return _context.Users.SingleOrDefault(u => u.UserName == username).Email;
+		}
 
         public User GetUserById(int id)
         {

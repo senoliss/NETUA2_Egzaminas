@@ -6,6 +6,7 @@ namespace NETUA2_Egzaminas.DAL.Interfaces
     {
         User GetUser(string username);
         User GetUserById(int id);
+        string GetUserEmail(string username);
         void SaveUser(User user);
         void DeleteUser(User user);
         bool CheckIfUserIsAdmin(User user);

@@ -133,6 +133,57 @@ namespace NETUA2_Egzaminas.API.Controllers
         }
 
         /// <summary>
+        /// Gets the user from db by username.
+        /// </summary>
+        /// <returns>Returns User with Ok response.<see cref="User"/></returns>
+        [HttpGet("GetUser/{username}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
+        public IActionResult GetUserByUsername(string username)
+        {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to GET user by username.";
+            _logger.LogInformation(loggingMessage);
+
+            User currUser = _userService.GetUser(username);
+
+            return Ok(currUser);
+        }
+
+        /// <summary>
+        /// Need to create an API where i only get username and email or just an API to get user email to check for the character with that email.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>Returns username and email.</returns>
+        [HttpGet("GetUserLess/{username}")]
+        public IActionResult GetUserLessInfo(string username)
+        {
+            return Ok();
+        }
+
+
+        /// <summary>
+        /// Gets user's email by username from db.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetUserEmail/{username}")]
+        public IActionResult GetUserEmail(string username)
+        {
+            return Ok(_userService.GetUserEmail(username));
+        }
+
+        /// <summary>
+        /// Gets Logged in user's usernam from JWT token claims.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetUserName")]
+        public IActionResult CurrentUserName()
+        {
+            return Ok(_userService.GetCurrentUserUserName());
+        }
+
+        /// <summary>
         /// Gets all the users from db. For Admins.
         /// </summary>
         /// <returns>Returns list of Users with Ok response.<see cref="List{User}"/></returns>

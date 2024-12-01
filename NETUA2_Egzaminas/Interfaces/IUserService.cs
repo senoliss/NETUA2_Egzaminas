@@ -12,6 +12,8 @@ namespace NETUA2_Egzaminas.API.Interfaces
         //ResponseDTO Login(string username, string password, out string role);
         User GetUser(string userName);
         int GetCurrentUserId();
+        string GetUserEmail(string username);
+        string GetCurrentUserUserName();
         User GetUserById(int id);
         List<User> GetAll();
         bool CheckIfUserIsAdmin(User user);

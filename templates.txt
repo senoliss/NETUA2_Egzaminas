@@ -1,0 +1,15 @@
+{
+  "userName": "ozas",
+  "password": "test",
+  "email": "test1@gmail.com"
+}
+
+{
+  "userId": 1,
+  "userName": "ozas",
+  "email": "test1@gmail.com",
+  "password": "OhmLPvMG+RbVH+xNNrMjpXTwHCNzX/rdvBNDTrk7YbI=",
+  "passwordSalt": "ehc8eEXV+DSRLzGuH/62jI+n4tb5DL+nlCgtpJTfWfmLkZhyyr/DtHHG3lNL7vwN5Gwjix9+VpAKS3cH/2oBEA==",
+  "role": "User",
+  "userInfo": null
+}
