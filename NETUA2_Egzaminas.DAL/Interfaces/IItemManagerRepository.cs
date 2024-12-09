@@ -13,6 +13,7 @@ namespace NETUA2_Egzaminas.DAL.Interfaces
         void RemoveItem(Item item);
         void RemoveItemById(int id);
         Item GetItemById(int id);
+        Item GetItemByImgId(string imgId);
         List<Item> GetAll();
         int GetItemCount();
     }

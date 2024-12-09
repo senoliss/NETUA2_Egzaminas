@@ -28,6 +28,11 @@ namespace NETUA2_Egzaminas.DAL.Repositories
             return _context.Items.SingleOrDefault(i => i.ItemId == id); ;
         }
 
+        public Item GetItemByImgId(string imgId)
+        {
+            return _context.Items.SingleOrDefault(i => i.ImgId == imgId); ;
+        }
+
         public List<Item> GetAll()
         {
             return _context.Items.ToList();

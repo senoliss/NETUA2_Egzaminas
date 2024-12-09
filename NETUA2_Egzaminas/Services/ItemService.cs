@@ -50,6 +50,10 @@ namespace NETUA2_Egzaminas.API.Services
         {
             return _itemManagerRepository.GetItemById(id);
         }
+        public Item GetItemByImgId(string imgId)
+        {
+            return _itemManagerRepository.GetItemByImgId(imgId);
+        }
         public bool GetItemByName(string name)
         {
             return _context.Items.Any(i => i.Name == name);

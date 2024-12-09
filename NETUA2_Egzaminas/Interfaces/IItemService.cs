@@ -7,6 +7,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
     public interface IItemService
     {
         Item GetItemById(int id);
+        Item GetItemByImgId(string imgId);
         void AddItem(Item item);
         List<Item> GetAll();
 		bool GetItemByName(string name);

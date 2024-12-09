@@ -84,10 +84,21 @@ namespace NETUA2_Egzaminas.API.Controllers
         {
             loggingMessage = "";
 
-            loggingMessage = $"Trying to GET all users.";
+            loggingMessage = $"Trying to GET item by id.";
             _logger.LogInformation(loggingMessage);
 
             return Ok(_itemService.GetItemById(id));
+        }
+
+		[HttpGet("GetItemByImgID/{imgId}")]
+        public IActionResult GetItemByImgId(string imgId)
+        {
+            loggingMessage = "";
+
+            loggingMessage = $"Trying to GET item by img id.";
+            _logger.LogInformation(loggingMessage);
+
+            return Ok(_itemService.GetItemByImgId(imgId));
         }
 
         [HttpGet("GetAllItems")]
