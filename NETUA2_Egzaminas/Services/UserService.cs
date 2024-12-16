@@ -63,6 +63,11 @@ namespace NETUA2_Egzaminas.API.Services
             return _userManagerService.GetUser(userName);
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _userManagerService.GetUserByEmail(email);
+        }
+
         // Gets authenticated user info through claims
         public int GetCurrentUserId()
         {

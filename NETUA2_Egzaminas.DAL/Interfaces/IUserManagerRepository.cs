@@ -5,6 +5,7 @@ namespace NETUA2_Egzaminas.DAL.Interfaces
     public interface IUserManagerRepository
     {
         User GetUser(string username);
+        User GetUserByEmail(string email);
         User GetUserById(int id);
         string GetUserEmail(string username);
         void SaveUser(User user);

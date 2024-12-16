@@ -11,6 +11,7 @@ namespace NETUA2_Egzaminas.API.Interfaces
         ResponseDTO TryLogin(User user, string password);
         //ResponseDTO Login(string username, string password, out string role);
         User GetUser(string userName);
+        User GetUserByEmail(string email);
         int GetCurrentUserId();
         string GetUserEmail(string username);
         string GetCurrentUserUserName();

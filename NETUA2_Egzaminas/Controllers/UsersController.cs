@@ -72,11 +72,46 @@ namespace NETUA2_Egzaminas.API.Controllers
             loggingMessage = $"Trying to Register for - username: {dto.UserName}";
             _logger.LogInformation(loggingMessage);
 
-            // maybe map an account here
-            var user = _userService.CreateAccount(dto.UserName, dto.Password, dto.Email);
+            var user1 = _userService.GetUser(dto.UserName);     // user object got by username inputed
+
+            var user2 = _userService.GetUserByEmail(dto.Email); // user object got by email inputed
+
+            if(user1 != null && user2 != null)
+            {
+				// check if both users are the same, meaning the email and username is from one and the same user, then return 'user with these credentials already exists
+                if (user1 == user2)
+                {
+                    return BadRequest("User already exists with these credentials!");
+                }
+
+				// check if user exists with that username but not that email, return 'username already taken!'
+				else if (user1.UserName == dto.UserName && user2.UserName != dto.UserName)
+				{
+					return BadRequest("Username is already taken!");
+				}
+
+				// check if user exists with that email but not that username, return 'user with this email already exists!'
+                else if(user2.Email == dto.Email && user1.Email != dto.Email)
+                {
+                    return BadRequest("User alrady exists with this email!");
+				}
+			}
+            // case taht user by username is found but by email no
+            if(user1 != null)
+            {
+				return BadRequest("Username is already taken!");
+            }
+
+            // case that user by email exists but by username - mo
+			if (user2 != null)
+			{
+                return BadRequest("User alrady exists with this email!");
+			}
+			// maybe map an account here
+			var user = _userService.CreateAccount(dto.UserName, dto.Password, dto.Email);
             if (user == null)       // kaip padaryti logika kad vadovaujantis SOLID principu cia nebutu null checko
             {
-                loggingMessage = $"Failed Registration for - username: {user.UserName}, {user.Role}. User already exists.";
+                loggingMessage = $"Failed Registration for - username: {dto.UserName}. User already exists.";
                 _logger.LogWarning(loggingMessage);
 
                 return BadRequest("User already exists");
