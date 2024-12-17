@@ -5,6 +5,7 @@ using NETUA2_Egzaminas.API.Interfaces;
 using NETUA2_Egzaminas.API.Mappers;
 using NETUA2_Egzaminas.DAL.Entities;
 using System.Net.Mime;
+using System.Runtime.Intrinsics.X86;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +39,43 @@ namespace NETUA2_Egzaminas.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateCharacter([FromBody] PostCreateCharacterDTO dto)
         {
-            if (!ModelState.IsValid)
+            var char1 = await _characterService.GetCharacterByUsernameAsync(dto.Name);
+
+            var char2 = await _characterService.GetCharacterByEmailAsync(dto.Email);
+			
+            if (char1 != null && char2 != null)
+			{
+				// check if both users are the same, meaning the email and username is from one and the same user, then return 'user with these credentials already exists
+				if (char1 == char2)
+				{
+					return BadRequest("User already exists with these credentials!");
+				}
+
+				// check if user exists with that username but not that email, return 'username already taken!'
+				else if (char1.Name == dto.Name && char2.Name != dto.Name)
+				{
+					return BadRequest("Username is already taken!");
+				}
+
+				// check if user exists with that email but not that username, return 'user with this email already exists!'
+				else if (char2.Email == dto.Email && char1.Email != dto.Email)
+				{
+					return BadRequest("User alrady exists with this email!");
+				}
+			}
+			// case taht user by username is found but by email no
+			if (char1 != null)
+			{
+				return BadRequest("Username is already taken!");
+			}
+
+			// case that user by email exists but by username - mo
+			if (char2 != null)
+			{
+				return BadRequest("User alrady exists with this email!");
+			}
+
+			if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
